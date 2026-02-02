@@ -72,9 +72,6 @@ export function compareCities(
   savingsPerYear: number;
   percentageDifference: number;
 } {
-  const adjusted1 = adjustSalaryForCOL(salary, city1COL);
-  const adjusted2 = adjustSalaryForCOL(salary, city2COL);
-  
   // How much would you need in city2 to match city1 purchasing power
   const equivalentSalary = (salary * city2COL) / city1COL;
   const savingsPerYear = salary - equivalentSalary;

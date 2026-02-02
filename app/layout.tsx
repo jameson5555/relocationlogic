@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { generateHomeMetadata } from "@/lib/metadata";
+import Link from "next/link";
 
 export const metadata: Metadata = generateHomeMetadata();
 
@@ -15,13 +16,13 @@ export default function RootLayout({
         <header className="site-header">
           <div className="container">
             <nav className="main-nav">
-              <a href="/" className="logo">
+              <Link href="/" className="logo">
                 <h1>RelocationLogic</h1>
-              </a>
+              </Link>
               <ul className="nav-links">
-                <li><a href="/">Home</a></li>
-                <li><a href="/cities">Cities</a></li>
-                <li><a href="/careers">Careers</a></li>
+                <li><Link href="/">Home</Link></li>
+                <li><Link href="/cities">Cities</Link></li>
+                <li><Link href="/careers">Careers</Link></li>
               </ul>
             </nav>
           </div>
