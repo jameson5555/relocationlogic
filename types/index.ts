@@ -1,0 +1,59 @@
+export interface City {
+  id: string;
+  name: string;
+  state: string;
+  stateCode: string;
+  population: number;
+  medianHomePrice: number;
+  costOfLivingIndex: number; // 100 = national average
+  stateTaxRate: number; // percentage
+  localTaxRate: number; // percentage
+  salesTaxRate: number;
+  averageRent: number;
+  latitude: number;
+  longitude: number;
+}
+
+export interface Career {
+  id: string;
+  title: string;
+  category: string;
+  description: string;
+  medianSalary: number;
+  salaryRange: {
+    min: number;
+    max: number;
+  };
+  growthRate: number; // percentage
+  requiredEducation: string;
+}
+
+export interface SalaryData {
+  cityId: string;
+  careerId: string;
+  salary: number;
+  percentile25: number;
+  percentile50: number;
+  percentile75: number;
+  sampleSize: number;
+}
+
+export interface TaxCalculation {
+  grossSalary: number;
+  federalTax: number;
+  stateTax: number;
+  localTax: number;
+  ficaTax: number;
+  totalTax: number;
+  netSalary: number;
+  effectiveTaxRate: number;
+}
+
+export interface CostOfLivingCalculation {
+  salary: number;
+  adjustedSalary: number;
+  costOfLivingIndex: number;
+  purchasingPower: number;
+  monthlyRent: number;
+  monthlyExpenses: number;
+}

@@ -1,0 +1,132 @@
+[
+  {
+    "id": "software-engineer",
+    "title": "Software Engineer",
+    "category": "Technology",
+    "description": "Design, develop, and maintain software applications and systems",
+    "medianSalary": 110000,
+    "salaryRange": {
+      "min": 70000,
+      "max": 180000
+    },
+    "growthRate": 22,
+    "requiredEducation": "Bachelor's degree in Computer Science or related field"
+  },
+  {
+    "id": "data-scientist",
+    "title": "Data Scientist",
+    "category": "Technology",
+    "description": "Analyze complex data to help companies make better decisions",
+    "medianSalary": 120000,
+    "salaryRange": {
+      "min": 80000,
+      "max": 200000
+    },
+    "growthRate": 31,
+    "requiredEducation": "Master's degree in Data Science, Statistics, or related field"
+  },
+  {
+    "id": "product-manager",
+    "title": "Product Manager",
+    "category": "Business",
+    "description": "Lead product development and strategy from conception to launch",
+    "medianSalary": 125000,
+    "salaryRange": {
+      "min": 90000,
+      "max": 190000
+    },
+    "growthRate": 15,
+    "requiredEducation": "Bachelor's degree in Business, Computer Science, or related field"
+  },
+  {
+    "id": "marketing-manager",
+    "title": "Marketing Manager",
+    "category": "Marketing",
+    "description": "Develop and implement marketing strategies to promote products or services",
+    "medianSalary": 95000,
+    "salaryRange": {
+      "min": 65000,
+      "max": 150000
+    },
+    "growthRate": 10,
+    "requiredEducation": "Bachelor's degree in Marketing, Communications, or Business"
+  },
+  {
+    "id": "financial-analyst",
+    "title": "Financial Analyst",
+    "category": "Finance",
+    "description": "Analyze financial data and provide investment recommendations",
+    "medianSalary": 85000,
+    "salaryRange": {
+      "min": 60000,
+      "max": 130000
+    },
+    "growthRate": 6,
+    "requiredEducation": "Bachelor's degree in Finance, Economics, or Accounting"
+  },
+  {
+    "id": "registered-nurse",
+    "title": "Registered Nurse",
+    "category": "Healthcare",
+    "description": "Provide and coordinate patient care in various healthcare settings",
+    "medianSalary": 77000,
+    "salaryRange": {
+      "min": 58000,
+      "max": 105000
+    },
+    "growthRate": 9,
+    "requiredEducation": "Associate or Bachelor's degree in Nursing (RN license required)"
+  },
+  {
+    "id": "civil-engineer",
+    "title": "Civil Engineer",
+    "category": "Engineering",
+    "description": "Design and oversee construction of infrastructure projects",
+    "medianSalary": 88000,
+    "salaryRange": {
+      "min": 65000,
+      "max": 125000
+    },
+    "growthRate": 8,
+    "requiredEducation": "Bachelor's degree in Civil Engineering (PE license preferred)"
+  },
+  {
+    "id": "ux-designer",
+    "title": "UX Designer",
+    "category": "Design",
+    "description": "Create user-centered designs for digital products and experiences",
+    "medianSalary": 95000,
+    "salaryRange": {
+      "min": 65000,
+      "max": 145000
+    },
+    "growthRate": 13,
+    "requiredEducation": "Bachelor's degree in Design, HCI, or related field"
+  },
+  {
+    "id": "business-analyst",
+    "title": "Business Analyst",
+    "category": "Business",
+    "description": "Analyze business processes and recommend improvements",
+    "medianSalary": 82000,
+    "salaryRange": {
+      "min": 58000,
+      "max": 115000
+    },
+    "growthRate": 11,
+    "requiredEducation": "Bachelor's degree in Business Administration or related field"
+  },
+  {
+    "id": "accountant",
+    "title": "Accountant",
+    "category": "Finance",
+    "description": "Prepare and examine financial records and ensure accuracy",
+    "medianSalary": 73000,
+    "salaryRange": {
+      "min": 52000,
+      "max": 105000
+    },
+    "growthRate": 7,
+    "requiredEducation": "Bachelor's degree in Accounting (CPA preferred)"
+  }
+]
