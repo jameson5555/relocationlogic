@@ -1,6 +1,7 @@
 import { City, Career, SalaryData } from '@/types';
 import citiesData from '@/data/cities.json';
 import careersData from '@/data/careers.json';
+import { calculateAdjustedSalary } from '@/utils/costOfLiving';
 
 /**
  * Get all cities
@@ -42,12 +43,14 @@ export function getSalaryData(cityId: string, careerId: string): SalaryData | nu
     return null;
   }
 
-  // Adjust salary based on cost of living
-  const colMultiplier = city.costOfLivingIndex / 100;
+  // Adjust salary based on cost of living and optional career overrides
   const baseSalary = career.medianSalary;
-  
-  // Cities with higher COL typically pay more
-  const adjustedSalary = Math.round(baseSalary * (0.7 + colMultiplier * 0.3));
+  const adjustedSalary = calculateAdjustedSalary(
+    baseSalary,
+    city.costOfLivingIndex,
+    career.salaryMultiplier,
+    career.overrideSalary
+  );
 
   return {
     cityId,
@@ -56,7 +59,9 @@ export function getSalaryData(cityId: string, careerId: string): SalaryData | nu
     percentile25: Math.round(adjustedSalary * 0.75),
     percentile50: adjustedSalary,
     percentile75: Math.round(adjustedSalary * 1.3),
-    sampleSize: Math.floor(Math.random() * 500) + 100,
+    // Deterministic sample size derived from cityId+careerId so SSG/ISR
+    // artifacts are stable across builds. Produces value in [100, 599].
+    sampleSize: deterministicSampleSize(`${cityId}:${careerId}`),
   };
 }
 
@@ -111,4 +116,18 @@ export function formatCurrency(amount: number): string {
  */
 export function formatPercentage(value: number, decimals: number = 1): string {
   return `${value.toFixed(decimals)}%`;
+}
+
+/**
+ * Simple deterministic hash to produce a stable sample size.
+ * Uses djb2 algorithm and maps output into [100, 599].
+ */
+function deterministicSampleSize(key: string): number {
+  let hash = 5381;
+  for (let i = 0; i < key.length; i++) {
+    hash = (hash * 33) ^ key.charCodeAt(i);
+  }
+  // Convert to unsigned 32-bit and map to 0..499
+  const unsigned = hash >>> 0;
+  return 100 + (unsigned % 500);
 }

@@ -5,6 +5,7 @@
     "category": "Technology",
     "description": "Design, develop, and maintain software applications and systems",
     "medianSalary": 110000,
+    "salaryMultiplier": 1.05,
     "salaryRange": {
       "min": 70000,
       "max": 180000
@@ -70,6 +71,7 @@
     "category": "Healthcare",
     "description": "Provide and coordinate patient care in various healthcare settings",
     "medianSalary": 77000,
+    "overrideSalary": 80000,
     "salaryRange": {
       "min": 58000,
       "max": 105000

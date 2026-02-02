@@ -24,6 +24,9 @@ export interface Career {
     min: number;
     max: number;
   };
+  // Optional manual overrides to adjust salary generation per career
+  salaryMultiplier?: number; // e.g., 1.1 to increase median by 10%
+  overrideSalary?: number; // absolute salary to use instead of computed
   growthRate: number; // percentage
   requiredEducation: string;
 }

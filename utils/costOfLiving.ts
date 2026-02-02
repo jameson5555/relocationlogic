@@ -13,6 +13,30 @@ export function adjustSalaryForCOL(
 }
 
 /**
+ * Compute an adjusted salary for a city-career combination.
+ * Priority: `overrideSalary` -> `salaryMultiplier` -> default scaling by COL.
+ * Default assumption: pay scales linearly with costOfLivingIndex (100 = national average).
+ * This is intentionally simple and transparent; can be replaced with data-driven model later.
+ */
+export function calculateAdjustedSalary(
+  baseSalary: number,
+  costOfLivingIndex: number,
+  salaryMultiplier?: number,
+  overrideSalary?: number
+): number {
+  if (typeof overrideSalary === 'number') {
+    return Math.round(overrideSalary);
+  }
+
+  if (typeof salaryMultiplier === 'number') {
+    return Math.round(baseSalary * salaryMultiplier);
+  }
+
+  // Default: scale base salary by COL index (e.g., COL 120 -> 1.2x)
+  return Math.round(baseSalary * (costOfLivingIndex / 100));
+}
+
+/**
  * Calculate estimated monthly expenses based on salary and COL
  */
 export function calculateMonthlyExpenses(
