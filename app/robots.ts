@@ -12,3 +12,6 @@ export default function robots(): MetadataRoute.Robots {
     sitemap: 'https://relocationlogic.com/sitemap.xml',
   };
 }
+
+// Mark static for export builds
+export const dynamic = 'force-static';
