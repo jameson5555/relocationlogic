@@ -5,8 +5,9 @@ import { formatCurrency } from './data';
 export const siteConfig = {
   name: 'RelocationLogic',
   description: 'Make informed career and relocation decisions with comprehensive salary data, tax calculations, and cost of living analysis.',
-  url: 'https://relocationlogic.com',
-  ogImage: 'https://relocationlogic.com/og-image.png',
+  // Read canonical site URL from environment so deployments can change host without code rebuild
+  url: process.env.NEXT_PUBLIC_SITE_URL || 'https://relocationlogic.com',
+  ogImage: (process.env.NEXT_PUBLIC_SITE_URL || 'https://relocationlogic.com') + '/og-image.png',
 };
 
 /**
