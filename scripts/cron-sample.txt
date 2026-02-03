@@ -1,0 +1,9 @@
+# Sample cron entry to update data and rebuild daily at 2:00 AM
+# Place this line into your crontab (crontab -e) or add via cPanel -> Cron Jobs
+# Change /home/username/path-to-app to your installation path
+
+# m h  dom mon dow   command
+0 2 * * * /bin/bash /home/username/path-to-app/scripts/update-and-build.sh >> /home/username/path-to-app/logs/update-and-build.log 2>&1
+
+# If you use cPanel's Application Manager, you can also call the script there or
+# use the cPanel cron UI to run the same command.
