@@ -144,5 +144,5 @@ export default async function SalaryPage({ params }: PageProps) {
   );
 }
 
-// Enable ISR with revalidation every 24 hours
-export const revalidate = 86400;
+  // Force static rendering for export builds
+  export const dynamic = 'force-static';
