@@ -83,6 +83,26 @@ npm run build
 npm start
 ```
 
+### Running on a custom port
+
+You can run the dev or production server on a different port by setting the `PORT` environment variable.
+
+Dev (one-off):
+```bash
+PORT=3001 npm run dev
+# or
+npm run dev -- -p 3001
+```
+
+Production (after `npm run build`):
+```bash
+PORT=3001 npm run start
+# or, using the production script:
+PORT=3001 npm run start:production
+```
+
+The `start:production` script runs `next start` with `NODE_ENV=production`, and will respect the `PORT` environment variable when provided.
+
 ### Development
 
 - **Dev Server**: `npm run dev` - Starts at http://localhost:3000

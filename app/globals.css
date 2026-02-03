@@ -1,5 +1,5 @@
 :root {
-  --primary-color: #0070f3;
+  --primary-color: #1782fd;
   --secondary-color: #7928ca;
   --background: #ffffff;
   --foreground: #171717;
@@ -216,6 +216,24 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .career-link {
+  background: var(--primary-color);
+  color: white;
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  font-size: 0.85rem;
+}
+
+/* New containers used by index pages */
+.city-links,
+.career-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+/* Salary links should visually match career links */
+.salary-link {
   background: var(--primary-color);
   color: white;
   padding: 0.4rem 0.8rem;
