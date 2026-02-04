@@ -16,10 +16,10 @@ import TaxBreakdown from '@/components/TaxBreakdown';
 import ColAnalysis from '@/components/ColAnalysis';
 
 interface PageProps {
-  params: Promise<{
+  params: {
     cityId: string;
     careerId: string;
-  }>;
+  };
 }
 
 // Generate static params for all city-career combinations
@@ -33,7 +33,7 @@ export async function generateStaticParams() {
 
 // Generate metadata for SEO
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const { cityId, careerId } = await params;
+  const { cityId, careerId } = params;
   const city = getCityById(cityId);
   const career = getCareerById(careerId);
   const salaryData = getSalaryData(cityId, careerId);
@@ -49,7 +49,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 // Main page component
 export default async function SalaryPage({ params }: PageProps) {
-  const { cityId, careerId } = await params;
+  const { cityId, careerId } = params;
   const city = getCityById(cityId);
   const career = getCareerById(careerId);
   const salaryData = getSalaryData(cityId, careerId);
@@ -144,5 +144,7 @@ export default async function SalaryPage({ params }: PageProps) {
   );
 }
 
-  // Force static rendering for export builds
-  export const dynamic = 'force-static';
+}
+
+// Force static rendering for export builds
+export const dynamic = 'force-static';
