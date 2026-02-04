@@ -9,7 +9,8 @@
     "start:production": "NODE_ENV=production next start",
     "lint": "eslint",
     "generate-sitemap": "node scripts/generate-sitemap.js",
-    "export": "npm run generate-sitemap && NEXT_EXPORT=true next build"
+    "postexport": "node scripts/fix-export-indexes.js",
+    "export": "npm run generate-sitemap && NEXT_EXPORT=true next build && npm run postexport"
   },
   "dependencies": {
     "next": "16.1.6",
