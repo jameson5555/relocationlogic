@@ -6,8 +6,9 @@ Options -Indexes
   RewriteBase /
 
   # If a trailing-slash URL corresponds to an existing .html file, redirect to it.
-  RewriteCond %{REQUEST_URI} ^(.+)/$
-  RewriteCond %{DOCUMENT_ROOT}%1.html -f
+  # Use a capture that excludes the leading slash so we don't produce a double-slash.
+  RewriteCond %{REQUEST_URI} ^/(.+)/$
+  RewriteCond %{DOCUMENT_ROOT}/%1.html -f
   RewriteRule ^ /%1.html [L,R=301]
 
   # If the request maps to a real file or directory, serve it.
