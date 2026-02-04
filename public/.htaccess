@@ -13,6 +13,11 @@ Options -Indexes
   RewriteCond %{DOCUMENT_ROOT}/%1.html -f
   RewriteRule ^(.+?)\.html$ https://%{HTTP_HOST}/$1/ [L,R=301]
 
+  # Serve/rewite client requests for missing Next tree files under .html paths
+  # Example: /salary/x/y.html/__next._tree.txt -> internally serve /salary/x/y.html
+  RewriteCond %{REQUEST_URI} ^(.+\.html)/__next\._tree\.txt$
+  RewriteRule ^ %1 [L]
+
   # If the request maps to a real file or directory, serve it.
   RewriteCond %{REQUEST_FILENAME} -f [OR]
   RewriteCond %{REQUEST_FILENAME} -d
