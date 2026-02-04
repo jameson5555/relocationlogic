@@ -13,7 +13,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <script dangerouslySetInnerHTML={{ __html: `(function(){try{var o=location.origin,p=location.pathname,s=location.search||'',h=location.hash||'';var fixed=p.replace(/^\/+/,'/');if(fixed!==p){location.replace(o+fixed+s+h);} }catch(e){} })();` }} />
+        <script dangerouslySetInnerHTML={{ __html: `(function(){try{var o=location.origin,p=location.pathname,s=location.search||'',h=location.hash||'';var fixed=p.replace(/\/+/g,'/');if(/\.html$/.test(fixed))fixed=fixed.replace(/\.html$/,'/');if(fixed!==p){var url=o+fixed+s+h;location.replace(url);} }catch(e){} })();` }} />
       </head>
       <body>
         <header className="site-header">
