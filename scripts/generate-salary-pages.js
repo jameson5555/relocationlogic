@@ -22,6 +22,18 @@ if (!fs.existsSync(outDir)) {
 const cities = JSON.parse(fs.readFileSync(citiesPath, 'utf8'));
 const careers = JSON.parse(fs.readFileSync(careersPath, 'utf8'));
 
+// Detect any exported CSS chunks so generated pages include site styles
+const cssDir = path.join(outDir, '_next', 'static', 'chunks');
+let cssLinks = [];
+if (fs.existsSync(cssDir)) {
+  try {
+    const files = fs.readdirSync(cssDir);
+    cssLinks = files.filter((f) => f.endsWith('.css'));
+  } catch (e) {
+    // ignore
+  }
+}
+
 let created = 0;
 
 for (const city of cities) {
@@ -32,7 +44,8 @@ for (const city of cities) {
     try {
       fs.mkdirSync(dir, { recursive: true });
       const title = `${career.title} Salary in ${city.name}, ${city.stateCode}`;
-      const body = `<!doctype html>\n<html lang="en">\n<head>\n<meta charset="utf-8"/>\n<meta name="viewport" content="width=device-width,initial-scale=1"/>\n<title>${title}</title>\n<link rel="icon" href="/favicon.ico"/>\n</head>\n<body>\n<header><a href="/">RelocationLogic</a></header>\n<main>\n<h1>${title}</h1>\n<p>Estimated median salary: ${formatCurrency(career.medianSalary)}</p>\n<p>Cost of living index: ${city.costOfLivingIndex}</p>\n<p><a href="/salary/${city.id}/${career.id}/">View details</a></p>\n</main>\n<footer>© 2024 RelocationLogic</footer>\n</body>\n</html>`;
+      const cssTags = cssLinks.map((f) => `<link rel="stylesheet" href="/_next/static/chunks/${f}" />`).join('\n');
+      const body = `<!doctype html>\n<html lang="en">\n<head>\n<meta charset="utf-8"/>\n<meta name="viewport" content="width=device-width,initial-scale=1"/>\n<title>${title}</title>\n<link rel="icon" href="/favicon.ico"/>\n${cssTags}\n</head>\n<body>\n<header><a href="/">RelocationLogic</a></header>\n<main>\n<h1>${title}</h1>\n<p>Estimated median salary: ${formatCurrency(career.medianSalary)}</p>\n<p>Cost of living index: ${city.costOfLivingIndex}</p>\n<p><a href="/salary/${city.id}/${career.id}/">View details</a></p>\n</main>\n<footer>© 2024 RelocationLogic</footer>\n</body>\n</html>`;
 
       fs.writeFileSync(indexPath, body, 'utf8');
       created++;
