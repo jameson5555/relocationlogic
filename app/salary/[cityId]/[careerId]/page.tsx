@@ -144,7 +144,5 @@ export default async function SalaryPage({ params }: PageProps) {
   );
 }
 
-}
-
 // Force static rendering for export builds
 export const dynamic = 'force-static';
