@@ -9,7 +9,8 @@ Options -Indexes
   # Use a capture that excludes the leading slash so we don't produce a double-slash.
   RewriteCond %{REQUEST_URI} ^/(.+)/$
   RewriteCond %{DOCUMENT_ROOT}/%1.html -f
-  RewriteRule ^ /%1.html [L,R=301]
+  # Redirect using the actual host to avoid accidental double-slash protocol-relative URLs
+  RewriteRule ^(.+?)/$ https://%{HTTP_HOST}/$1.html [L,R=301]
 
   # If the request maps to a real file or directory, serve it.
   RewriteCond %{REQUEST_FILENAME} -f [OR]
