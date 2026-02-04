@@ -14,4 +14,4 @@ export default function robots(): MetadataRoute.Robots {
 }
 
 // Mark static for export builds
-export const dynamic = 'force-static';
+// (kept at top) no duplicate `dynamic` export here

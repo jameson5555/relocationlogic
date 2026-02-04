@@ -27,4 +27,4 @@ export default function sitemap(): MetadataRoute.Sitemap {
 }
 
 // Mark static for export builds
-export const dynamic = 'force-static';
+// (kept at top) no duplicate `dynamic` export here
