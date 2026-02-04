@@ -40,3 +40,4 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 relocationlogic-standalone-with-node_modules.tgz
+relocationlogic-standalone-with-node_modules.tgz
