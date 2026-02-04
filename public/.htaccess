@@ -5,12 +5,13 @@ Options -Indexes
   RewriteEngine On
   RewriteBase /
 
-  # If a trailing-slash URL corresponds to an existing .html file, redirect to it.
-  # Use a capture that excludes the leading slash so we don't produce a double-slash.
-  RewriteCond %{REQUEST_URI} ^/(.+)/$
+  # If a request ends with .html, redirect to the canonical trailing-slash path.
+  # This ensures client navigation uses directory-style URLs (served from index.html)
+  # and avoids client attempts to fetch `*.html/__next._tree.txt` which don't exist
+  # on a static export.
+  RewriteCond %{REQUEST_URI} ^/(.+)\.html$
   RewriteCond %{DOCUMENT_ROOT}/%1.html -f
-  # Redirect using the actual host to avoid accidental double-slash protocol-relative URLs
-  RewriteRule ^(.+?)/$ https://%{HTTP_HOST}/$1.html [L,R=301]
+  RewriteRule ^(.+?)\.html$ https://%{HTTP_HOST}/$1/ [L,R=301]
 
   # If the request maps to a real file or directory, serve it.
   RewriteCond %{REQUEST_FILENAME} -f [OR]
