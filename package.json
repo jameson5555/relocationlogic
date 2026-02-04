@@ -9,7 +9,7 @@
     "start:production": "NODE_ENV=production next start",
     "lint": "eslint",
     "generate-sitemap": "node scripts/generate-sitemap.js",
-    "postexport": "node scripts/generate-salary-pages.js && node scripts/fix-export-indexes.js",
+    "postexport": "node scripts/fix-export-indexes.js && node scripts/generate-salary-pages.js",
     "export": "npm run generate-sitemap && NEXT_EXPORT=true next build && npm run postexport"
   },
   "dependencies": {
