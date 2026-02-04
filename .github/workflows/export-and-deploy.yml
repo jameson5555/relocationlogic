@@ -35,4 +35,4 @@ jobs:
           password: ${{ secrets.CPANEL_FTP_PASSWORD }}
           port: ${{ secrets.CPANEL_FTP_PORT }}
           local-dir: out/
-          server-dir: ${{ secrets.CPANEL_FTP_PATH }}
+          server-dir: ${{ secrets.CPANEL_FTP_PATH }}/
