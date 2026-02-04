@@ -8,7 +8,7 @@
     "start": "next start",
     "start:production": "NODE_ENV=production next start",
     "lint": "eslint",
-    "export": "next build && next export"
+    "export": "NEXT_EXPORT=true next build"
   },
   "dependencies": {
     "next": "16.1.6",
@@ -25,6 +25,6 @@
   }
   ,
   "engines": {
-    "node": ">=18 <21"
+    "node": ">=20.9.0"
   }
 }
