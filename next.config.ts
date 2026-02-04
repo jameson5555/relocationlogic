@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  output: 'standalone', // For self-hosted Node environments
+  output: process.env.NEXT_EXPORT === 'true' ? 'export' : 'standalone', // Use static export when NEXT_EXPORT=true
   reactStrictMode: true,
   poweredByHeader: false,
   compress: true,
