@@ -1,4 +1,6 @@
 import { MetadataRoute } from 'next';
+
+export const dynamic = 'force-static';
 import { getAllCombinations } from '@/lib/data';
 import fs from 'fs';
 import path from 'path';
