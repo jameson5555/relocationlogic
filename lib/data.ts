@@ -1,34 +1,52 @@
 import { City, Career, SalaryData } from '@/types';
-import citiesData from '@/data/cities.json';
-import careersData from '@/data/careers.json';
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { calculateAdjustedSalary } from '@/utils/costOfLiving';
 
 /**
  * Get all cities
  */
+const currentDir = path.dirname(fileURLToPath(import.meta.url));
+const dataDir = path.join(currentDir, '..', 'data');
+const citiesData = loadJsonFile<City[]>(path.join(dataDir, 'cities.json'));
+const careersData = loadJsonFile<Career[]>(path.join(dataDir, 'careers.json'));
+
 export function getCities(): City[] {
-  return citiesData as City[];
+  return citiesData;
 }
 
 /**
  * Get city by ID
  */
 export function getCityById(id: string): City | undefined {
-  return getCities().find((city) => city.id === id);
+  if (!id) return undefined;
+  const normalized = normalizeId(id);
+  const cities = getCities();
+  return (
+    cities.find((city) => normalizeId(city.id) === normalized) ||
+    cities.find((city) => normalizeId(generateSlug(city.name, city.stateCode)) === normalized)
+  );
 }
 
 /**
  * Get all careers
  */
 export function getCareers(): Career[] {
-  return careersData as Career[];
+  return careersData;
 }
 
 /**
  * Get career by ID
  */
 export function getCareerById(id: string): Career | undefined {
-  return getCareers().find((career) => career.id === id);
+  if (!id) return undefined;
+  const normalized = normalizeId(id);
+  const careers = getCareers();
+  return (
+    careers.find((career) => normalizeId(career.id) === normalized) ||
+    careers.find((career) => normalizeId(generateSlug(career.title)) === normalized)
+  );
 }
 
 /**
@@ -130,4 +148,22 @@ function deterministicSampleSize(key: string): number {
   // Convert to unsigned 32-bit and map to 0..499
   const unsigned = hash >>> 0;
   return 100 + (unsigned % 500);
+}
+
+function normalizeId(value: string): string {
+  return value
+    .toString()
+    .trim()
+    .toLowerCase()
+    .replace(/\/+$/, '')
+    .replace(/\s+/g, '-');
+}
+
+function loadJsonFile<T>(filePath: string): T {
+  try {
+    const raw = fs.readFileSync(filePath, 'utf8');
+    return JSON.parse(raw) as T;
+  } catch {
+    return [] as T;
+  }
 }

@@ -1,15 +1,13 @@
 import { Metadata } from 'next';
-import { notFound } from 'next/navigation';
 import {
-  getCityById,
-  getCareerById,
-  getSalaryData,
-  getAllCombinations,
   formatCurrency,
   formatPercentage,
 } from '@/lib/data';
+import citiesData from '@/data/cities.json';
+import careersData from '@/data/careers.json';
+import { City, Career, SalaryData } from '@/types';
+import { calculateAdjustedSalary, calculateCostOfLiving } from '@/utils/costOfLiving';
 import { calculateTax } from '@/utils/taxCalculator';
-import { calculateCostOfLiving } from '@/utils/costOfLiving';
 import { generatePageMetadata, generateStructuredData } from '@/lib/metadata';
 import SalaryOverview from '@/components/SalaryOverview';
 import TaxBreakdown from '@/components/TaxBreakdown';
@@ -17,26 +15,99 @@ import ColAnalysis from '@/components/ColAnalysis';
 
 interface PageProps {
   params: {
-    cityId: string;
-    careerId: string;
+    cityId?: string;
+    careerId?: string;
+    slug?: string[];
   };
+}
+
+const cities = (Array.isArray(citiesData)
+  ? citiesData
+  : (citiesData as { default?: City[] }).default) || [];
+const careers = (Array.isArray(careersData)
+  ? careersData
+  : (careersData as { default?: Career[] }).default) || [];
+
+const cityById = new Map(cities.map((city) => [normalizeId(city.id), city]));
+const careerById = new Map(careers.map((career) => [normalizeId(career.id), career]));
+
+function normalizeId(value: string): string {
+  if (!value) return '';
+  return value
+    .toString()
+    .trim()
+    .toLowerCase()
+    .replace(/\/+$/, '')
+    .replace(/\s+/g, '-');
+}
+
+function getCityByIdLocal(id: string): City | undefined {
+  return cityById.get(normalizeId(id));
+}
+
+function getCareerByIdLocal(id: string): Career | undefined {
+  return careerById.get(normalizeId(id));
+}
+
+function getParamIds(params: PageProps['params']) {
+  const slug = params.slug || [];
+  return {
+    cityId: params.cityId ?? slug[0] ?? '',
+    careerId: params.careerId ?? slug[1] ?? '',
+  };
+}
+
+function getSalaryDataLocal(cityId: string, careerId: string): SalaryData | null {
+  const city = getCityByIdLocal(cityId);
+  const career = getCareerByIdLocal(careerId);
+
+  if (!city || !career) {
+    return null;
+  }
+
+  const baseSalary = career.medianSalary;
+  const adjustedSalary = calculateAdjustedSalary(
+    baseSalary,
+    city.costOfLivingIndex,
+    career.salaryMultiplier,
+    career.overrideSalary
+  );
+
+  return {
+    cityId,
+    careerId,
+    salary: adjustedSalary,
+    percentile25: Math.round(adjustedSalary * 0.75),
+    percentile50: adjustedSalary,
+    percentile75: Math.round(adjustedSalary * 1.3),
+    sampleSize: 100 + (Math.abs(hashString(`${cityId}:${careerId}`)) % 500),
+  };
+}
+
+function hashString(value: string): number {
+  let hash = 5381;
+  for (let i = 0; i < value.length; i++) {
+    hash = (hash * 33) ^ value.charCodeAt(i);
+  }
+  return hash >>> 0;
 }
 
 // Generate static params for all city-career combinations
 export async function generateStaticParams() {
-  const combinations = getAllCombinations();
-  return combinations.map(({ cityId, careerId }) => ({
-    cityId,
-    careerId,
-  }));
+  return cities.flatMap((city) =>
+    careers.map((career) => ({
+      cityId: city.id,
+      careerId: career.id,
+    }))
+  );
 }
 
 // Generate metadata for SEO
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const { cityId, careerId } = params;
-  const city = getCityById(cityId);
-  const career = getCareerById(careerId);
-  const salaryData = getSalaryData(cityId, careerId);
+  const { cityId, careerId } = getParamIds(params);
+  const city = getCityByIdLocal(cityId);
+  const career = getCareerByIdLocal(careerId);
+  const salaryData = getSalaryDataLocal(cityId, careerId);
 
   if (!city || !career || !salaryData) {
     return {
@@ -49,13 +120,22 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 // Main page component
 export default async function SalaryPage({ params }: PageProps) {
-  const { cityId, careerId } = params;
-  const city = getCityById(cityId);
-  const career = getCareerById(careerId);
-  const salaryData = getSalaryData(cityId, careerId);
+  const { cityId, careerId } = getParamIds(params);
+  const city = getCityByIdLocal(cityId);
+  const career = getCareerByIdLocal(careerId);
+  const salaryData = getSalaryDataLocal(cityId, careerId);
 
   if (!city || !career || !salaryData) {
-    notFound();
+    return (
+      <div className="container">
+        <header className="page-header">
+          <h1>Salary data unavailable</h1>
+          <p className="lead">
+            We couldn&apos;t find data for this city and career combination.
+          </p>
+        </header>
+      </div>
+    );
   }
 
   // Calculate tax breakdown
@@ -145,4 +225,3 @@ export default async function SalaryPage({ params }: PageProps) {
 }
 
 // Force static rendering for export builds
-export const dynamic = 'force-static';
