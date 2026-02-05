@@ -20,7 +20,7 @@ export default function CareersPage() {
             <p>{career.description}</p>
             <div className="career-links">
               {cities.slice(0, 3).map((city) => (
-                <Link key={city.id} href={`/salary/${city.id}/${career.id}`} className="salary-link">
+                <Link key={city.id} href={`/salary/${city.id}/${career.id}/`} className="salary-link">
                   {city.name}, {city.stateCode}
                 </Link>
               ))}

@@ -17,7 +17,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   combinations.forEach(({ cityId, careerId }) => {
     routes.push({
-      url: `${baseUrl}/salary/${cityId}/${careerId}`,
+      url: `${baseUrl}/salary/${cityId}/${careerId}/`,
       changeFrequency: 'weekly',
       priority: 0.8,
     });

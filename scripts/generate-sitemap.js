@@ -38,7 +38,7 @@ function buildSitemap() {
   cityList.forEach((city) => {
     careerList.forEach((career) => {
       urls.push({
-        loc: `${baseUrl}/salary/${city.id}/${career.id}`,
+        loc: `${baseUrl}/salary/${city.id}/${career.id}/`,
         lastmod,
         priority: '0.8',
         changefreq: 'weekly',
