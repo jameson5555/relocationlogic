@@ -1,4 +1,4 @@
-import { City, Career, SalaryData } from '@/types';
+import { City, Career, SalaryData, DataMeta, DatasetMeta } from '@/types';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -11,6 +11,7 @@ const currentDir = path.dirname(fileURLToPath(import.meta.url));
 const dataDir = path.join(currentDir, '..', 'data');
 const citiesData = loadJsonFile<City[]>(path.join(dataDir, 'cities.json'));
 const careersData = loadJsonFile<Career[]>(path.join(dataDir, 'careers.json'));
+const metaData = loadJsonFile<DataMeta>(path.join(dataDir, 'meta.json'), { datasets: {} });
 
 export function getCities(): City[] {
   return citiesData;
@@ -34,6 +35,70 @@ export function getCityById(id: string): City | undefined {
  */
 export function getCareers(): Career[] {
   return careersData;
+}
+
+/**
+ * Get data metadata
+ */
+export function getDataMeta(): DataMeta {
+  return metaData;
+}
+
+export function getDatasetMeta(datasetId: string): DatasetMeta | undefined {
+  return metaData.datasets[datasetId];
+}
+
+export function getDatasetLastUpdated(datasetId: string): Date | null {
+  const dataset = getDatasetMeta(datasetId);
+  if (!dataset?.lastUpdated) return null;
+  const parsed = new Date(dataset.lastUpdated);
+  return Number.isNaN(parsed.getTime()) ? null : parsed;
+}
+
+export function getSiteLastUpdated(): string | null {
+  const latest = maxDate([
+    getDatasetLastUpdated('censusAcs'),
+    getDatasetLastUpdated('blsOews'),
+  ]);
+  return latest ? latest.toISOString() : null;
+}
+
+export function getPageLastUpdated(page: 'home' | 'cities' | 'careers' | 'salary'): string | null {
+  let latest: Date | null = null;
+  switch (page) {
+    case 'cities':
+      latest = getDatasetLastUpdated('censusAcs');
+      break;
+    case 'careers':
+      latest = getDatasetLastUpdated('blsOews');
+      break;
+    case 'salary':
+      latest = maxDate([
+        getDatasetLastUpdated('censusAcs'),
+        getDatasetLastUpdated('blsOews'),
+      ]);
+      break;
+    case 'home':
+    default:
+      latest = maxDate([
+        getDatasetLastUpdated('censusAcs'),
+        getDatasetLastUpdated('blsOews'),
+      ]);
+      break;
+  }
+
+  return latest ? latest.toISOString() : null;
+}
+
+export function formatLastUpdated(lastUpdated: string | null): string | null {
+  if (!lastUpdated) return null;
+  const parsed = new Date(lastUpdated);
+  if (Number.isNaN(parsed.getTime())) return null;
+  return parsed.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
 }
 
 /**
@@ -159,11 +224,18 @@ function normalizeId(value: string): string {
     .replace(/\s+/g, '-');
 }
 
-function loadJsonFile<T>(filePath: string): T {
+function loadJsonFile<T>(filePath: string, fallback?: T): T {
   try {
     const raw = fs.readFileSync(filePath, 'utf8');
     return JSON.parse(raw) as T;
   } catch {
+    if (fallback !== undefined) return fallback;
     return [] as T;
   }
+}
+
+function maxDate(dates: Array<Date | null>): Date | null {
+  const valid = dates.filter((date): date is Date => Boolean(date));
+  if (!valid.length) return null;
+  return valid.reduce((latest, current) => (current > latest ? current : latest));
 }

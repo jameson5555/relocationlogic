@@ -1,0 +1,43 @@
+name: Refresh Data (Monthly)
+
+on:
+  schedule:
+    - cron: '0 6 1 * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  refresh-data:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.9.0'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Update data
+        run: npm run update-data
+        env:
+          CENSUS_API_KEY: ${{ secrets.CENSUS_API_KEY }}
+          ACS_YEAR: '2022'
+
+      - name: Commit changes if needed
+        run: |
+          if git diff --quiet; then
+            echo "No data changes detected."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/cities.json data/meta.json
+          git commit -m "chore: refresh ACS city data"
+          git push origin main

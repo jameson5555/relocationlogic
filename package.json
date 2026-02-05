@@ -8,6 +8,7 @@
     "start": "next start",
     "start:production": "NODE_ENV=production next start",
     "lint": "eslint",
+    "update-data": "node scripts/update-data.js",
     "generate-sitemap": "node scripts/generate-sitemap.js",
     "postexport": "node scripts/fix-export-indexes.js && node scripts/generate-salary-pages.js",
     "export": "npm run generate-sitemap && NEXT_EXPORT=true next build"

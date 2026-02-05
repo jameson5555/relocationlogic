@@ -4,9 +4,13 @@ const path = require('path');
 const dataDir = path.join(__dirname, '..', 'data');
 const outDir = path.join(__dirname, '..', 'public');
 
-function loadJson(name) {
+function loadJson(name, fallback = null) {
   const p = path.join(dataDir, name);
-  return JSON.parse(fs.readFileSync(p, 'utf8'));
+  try {
+    return JSON.parse(fs.readFileSync(p, 'utf8'));
+  } catch (err) {
+    return fallback;
+  }
 }
 
 function getLastModified() {
@@ -20,26 +24,45 @@ function getLastModified() {
   }
 }
 
+function getDatasetLastUpdated(meta, datasetId) {
+  const value = meta?.datasets?.[datasetId]?.lastUpdated;
+  if (!value) return null;
+  const parsed = new Date(value);
+  return Number.isNaN(parsed.getTime()) ? null : parsed;
+}
+
+function maxDate(dates) {
+  const valid = dates.filter(Boolean);
+  if (!valid.length) return null;
+  return valid.reduce((latest, current) => (current > latest ? current : latest));
+}
+
 function buildSitemap() {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://relocationlogic.com';
-  const cities = loadJson('cities.json');
-  const careers = loadJson('careers.json');
+  const cities = loadJson('cities.json', []);
+  const careers = loadJson('careers.json', []);
+  const meta = loadJson('meta.json', { datasets: {} });
 
   // flatten arrays if they are objects
   const cityList = Array.isArray(cities) ? cities : Object.values(cities);
   const careerList = Array.isArray(careers) ? careers : Object.values(careers);
 
-  const lastmod = getLastModified();
+  const acsLastUpdated = getDatasetLastUpdated(meta, 'censusAcs');
+  const blsLastUpdated = getDatasetLastUpdated(meta, 'blsOews');
+  const salaryLastUpdated = maxDate([acsLastUpdated, blsLastUpdated]);
+  const defaultLastmod = getLastModified();
+  const homeLastmod = salaryLastUpdated ? salaryLastUpdated.toISOString() : defaultLastmod;
+  const salaryLastmod = salaryLastUpdated ? salaryLastUpdated.toISOString() : defaultLastmod;
 
   const urls = [];
   // homepage
-  urls.push({ loc: `${baseUrl}/`, lastmod, priority: '1.0', changefreq: 'daily' });
+  urls.push({ loc: `${baseUrl}/`, lastmod: homeLastmod, priority: '1.0', changefreq: 'daily' });
 
   cityList.forEach((city) => {
     careerList.forEach((career) => {
       urls.push({
         loc: `${baseUrl}/salary/${city.id}/${career.id}/`,
-        lastmod,
+        lastmod: salaryLastmod,
         priority: '0.8',
         changefreq: 'weekly',
       });

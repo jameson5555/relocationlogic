@@ -60,3 +60,16 @@ export interface CostOfLivingCalculation {
   monthlyRent: number;
   monthlyExpenses: number;
 }
+
+export interface DatasetMeta {
+  id: string;
+  release: string;
+  lastUpdated: string; // ISO timestamp of dataset snapshot
+  retrievedAt: string; // ISO timestamp of retrieval
+  sourceUrl: string;
+  notes?: string;
+}
+
+export interface DataMeta {
+  datasets: Record<string, DatasetMeta | undefined>;
+}

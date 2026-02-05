@@ -1,0 +1,20 @@
+{
+  "datasets": {
+    "censusAcs": {
+      "id": "censusAcs",
+      "release": "ACS 2022 5-year",
+      "lastUpdated": "2026-02-05T00:00:00Z",
+      "retrievedAt": "2026-02-05T00:00:00Z",
+      "sourceUrl": "https://api.census.gov/data/2022/acs/acs5",
+      "notes": "B01003_001E (population), B25077_001E (median home value), B25064_001E (median gross rent)"
+    },
+    "blsOews": {
+      "id": "blsOews",
+      "release": "OEWS 2023 (pending refresh)",
+      "lastUpdated": "2026-02-05T00:00:00Z",
+      "retrievedAt": "2026-02-05T00:00:00Z",
+      "sourceUrl": "https://www.bls.gov/oes/",
+      "notes": "Placeholder until OEWS refresh script is added"
+    }
+  }
+}

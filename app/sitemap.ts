@@ -1,18 +1,25 @@
 import { MetadataRoute } from 'next';
 
 export const dynamic = 'force-static';
-import { getAllCombinations } from '@/lib/data';
+import { getAllCombinations, getPageLastUpdated } from '@/lib/data';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://relocationlogic.com';
   const combinations = getAllCombinations();
+  const homeLastUpdated = getPageLastUpdated('home');
+  const salaryLastUpdated = getPageLastUpdated('salary');
 
   // Use build-time generation (scripts/generate-sitemap.js) for stable lastModified.
   // Here we provide a sitemap that will be used by Next during build; lastModified is omitted
   // to avoid requiring runtime filesystem access.
 
   const routes: MetadataRoute.Sitemap = [
-    { url: baseUrl, changeFrequency: 'daily', priority: 1 },
+    {
+      url: baseUrl,
+      changeFrequency: 'daily',
+      priority: 1,
+      lastModified: homeLastUpdated ? new Date(homeLastUpdated) : undefined,
+    },
   ];
 
   combinations.forEach(({ cityId, careerId }) => {
@@ -20,6 +27,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: `${baseUrl}/salary/${cityId}/${careerId}/`,
       changeFrequency: 'weekly',
       priority: 0.8,
+      lastModified: salaryLastUpdated ? new Date(salaryLastUpdated) : undefined,
     });
   });
 

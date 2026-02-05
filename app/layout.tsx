@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { generateHomeMetadata } from "@/lib/metadata";
+import { formatLastUpdated, getSiteLastUpdated } from "@/lib/data";
 import Link from "next/link";
 
 export const metadata: Metadata = generateHomeMetadata();
@@ -10,6 +11,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const lastUpdated = formatLastUpdated(getSiteLastUpdated());
   return (
     <html lang="en">
       <head />
@@ -33,6 +35,9 @@ export default function RootLayout({
           <div className="container">
             <p>&copy; 2024 RelocationLogic. All rights reserved.</p>
             <p>Make informed career and relocation decisions with data-driven insights.</p>
+            {lastUpdated && (
+              <p className="data-updated">Data last updated: {lastUpdated}</p>
+            )}
           </div>
         </footer>
       </body>

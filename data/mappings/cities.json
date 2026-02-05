@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "source": "Census ACS place geography",
+  "notes": "Map each cityId to Census state/place FIPS codes. Keep this list in sync with data/cities.json.",
+  "cities": [
+    { "cityId": "new-york-ny", "stateFips": "36", "placeFips": "51000" },
+    { "cityId": "san-francisco-ca", "stateFips": "06", "placeFips": "67000" },
+    { "cityId": "austin-tx", "stateFips": "48", "placeFips": "05000" },
+    { "cityId": "seattle-wa", "stateFips": "53", "placeFips": "63000" },
+    { "cityId": "miami-fl", "stateFips": "12", "placeFips": "45000" },
+    { "cityId": "chicago-il", "stateFips": "17", "placeFips": "14000" },
+    { "cityId": "denver-co", "stateFips": "08", "placeFips": "20000" },
+    { "cityId": "atlanta-ga", "stateFips": "13", "placeFips": "04000" },
+    { "cityId": "boston-ma", "stateFips": "25", "placeFips": "07000" },
+    { "cityId": "portland-or", "stateFips": "41", "placeFips": "59000" }
+  ]
+}

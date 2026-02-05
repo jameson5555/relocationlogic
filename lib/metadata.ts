@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { City, Career } from '@/types';
-import { formatCurrency } from './data';
+import { formatCurrency, getPageLastUpdated } from './data';
 
 export const siteConfig = {
   name: 'RelocationLogic',
@@ -14,6 +14,7 @@ export const siteConfig = {
  * Generate metadata for homepage
  */
 export function generateHomeMetadata(): Metadata {
+  const lastUpdated = getPageLastUpdated('home');
   return {
     title: 'RelocationLogic - Career & Relocation Salary Calculator',
     description: siteConfig.description,
@@ -39,6 +40,7 @@ export function generateHomeMetadata(): Metadata {
       ],
       locale: 'en_US',
       type: 'website',
+      modifiedTime: lastUpdated || undefined,
     },
     twitter: {
       card: 'summary_large_image',
@@ -57,6 +59,7 @@ export function generateHomeMetadata(): Metadata {
         'max-snippet': -1,
       },
     },
+    other: lastUpdated ? { 'data-last-updated': lastUpdated } : undefined,
   };
 }
 
@@ -66,7 +69,8 @@ export function generateHomeMetadata(): Metadata {
 export function generatePageMetadata(
   city: City,
   career: Career,
-  salary: number
+  salary: number,
+  lastUpdated?: string
 ): Metadata {
   const title = `${career.title} Salary in ${city.name}, ${city.stateCode} - ${formatCurrency(salary)}`;
   const description = `Explore ${career.title} salaries in ${city.name}, ${city.state}. Get detailed tax calculations, cost of living analysis, and relocation insights. Average salary: ${formatCurrency(salary)}.`;
@@ -96,6 +100,7 @@ export function generatePageMetadata(
       ],
       locale: 'en_US',
       type: 'article',
+      modifiedTime: lastUpdated || undefined,
     },
     twitter: {
       card: 'summary_large_image',
@@ -106,6 +111,7 @@ export function generatePageMetadata(
     alternates: {
       canonical: `${siteConfig.url}/salary/${city.id}/${career.id}`,
     },
+    other: lastUpdated ? { 'data-last-updated': lastUpdated } : undefined,
   };
 }
 
@@ -115,11 +121,13 @@ export function generatePageMetadata(
 export function generateStructuredData(
   city: City,
   career: Career,
-  salary: number
+  salary: number,
+  lastUpdated?: string
 ) {
   return {
     '@context': 'https://schema.org',
     '@type': 'Article',
+    dateModified: lastUpdated,
     headline: `${career.title} Salary in ${city.name}, ${city.stateCode}`,
     description: `Comprehensive salary information for ${career.title} positions in ${city.name}, including tax calculations and cost of living analysis.`,
     author: {

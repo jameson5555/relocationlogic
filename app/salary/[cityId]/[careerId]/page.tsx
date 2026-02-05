@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import {
   formatCurrency,
   formatPercentage,
+  getPageLastUpdated,
 } from '@/lib/data';
 import citiesData from '@/data/cities.json';
 import careersData from '@/data/careers.json';
@@ -114,8 +115,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       title: 'Not Found',
     };
   }
+  const lastUpdated = getPageLastUpdated('salary');
 
-  return generatePageMetadata(city, career, salaryData.salary);
+  return generatePageMetadata(city, career, salaryData.salary, lastUpdated || undefined);
 }
 
 // Main page component
@@ -153,7 +155,13 @@ export default async function SalaryPage({ params }: PageProps) {
   );
 
   // Generate structured data
-  const structuredData = generateStructuredData(city, career, salaryData.salary);
+  const lastUpdated = getPageLastUpdated('salary');
+  const structuredData = generateStructuredData(
+    city,
+    career,
+    salaryData.salary,
+    lastUpdated || undefined
+  );
 
   return (
     <>

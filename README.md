@@ -146,49 +146,46 @@ NEXT_PUBLIC_SITE_URL=https://your-domain.com
 
 ## Data Management
 
-### Adding Cities
+### Automated Refresh (Monthly)
 
-Edit `data/cities.json`:
+The JSON files in data/ are treated as generated artifacts. A scheduled GitHub Action
+fetches public datasets (Census ACS and BLS OEWS), normalizes them, and writes updated
+JSON snapshots. Updates are committed directly to main and trigger a rebuild + deploy.
 
-```json
-{
-  "id": "city-state",
-  "name": "City Name",
-  "state": "State Name",
-  "stateCode": "ST",
-  "population": 1000000,
-  "medianHomePrice": 500000,
-  "costOfLivingIndex": 120.0,
-  "stateTaxRate": 5.0,
-  "localTaxRate": 1.0,
-  "salesTaxRate": 7.0,
-  "averageRent": 2000,
-  "latitude": 40.7128,
-  "longitude": -74.0060
-}
+Key files:
+
+- data/cities.json (generated)
+- data/careers.json (generated)
+- data/meta.json (per-dataset timestamps + sources)
+- data/mappings/cities.json (Census place FIPS mapping)
+
+Run locally:
+
+```
+npm run update-data
 ```
 
-### Adding Careers
+### Dataset Timestamps
 
-Edit `data/careers.json`:
+Per-dataset timestamps live in data/meta.json. Pages derive “Data last updated” from the
+most relevant dataset (ACS for city pages, OEWS for career pages, max for salary pages).
 
-```json
-{
-  "id": "career-slug",
-  "title": "Career Title",
-  "category": "Category",
-  "description": "Career description",
-  "medianSalary": 100000,
-  "salaryRange": {
-    "min": 70000,
-    "max": 150000
-  },
-  "growthRate": 10,
-  "requiredEducation": "Bachelor's degree"
-}
+### Mappings
+
+City-to-ACS mapping is defined in data/mappings/cities.json. Keep this list in sync with
+data/cities.json when adding or removing cities.
+
+### Manual Updates (Fallback)
+
+If you need to make a one-off correction, update the source mappings or script logic
+and re-run:
+
+```
+npm run update-data
 ```
 
-After adding data, rebuild the site to regenerate all pages.
+Direct edits to data/cities.json or data/careers.json will be overwritten by the
+automated refresh pipeline.
 
 ## SEO Features
 
