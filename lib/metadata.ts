@@ -138,7 +138,7 @@ export function generateStructuredData(
       name: siteConfig.name,
       logo: {
         '@type': 'ImageObject',
-        url: `${siteConfig.url}/logo.png`,
+        url: `${siteConfig.url}/logo-light.png`,
       },
     },
     mainEntityOfPage: {

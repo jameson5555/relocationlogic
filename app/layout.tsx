@@ -19,8 +19,19 @@ export default function RootLayout({
         <header className="site-header">
           <div className="container">
             <nav className="main-nav">
-              <Link href="/" className="logo">
-                <h1>RelocationLogic</h1>
+              <Link href="/" className="logo" aria-label="RelocationLogic home">
+                <picture>
+                  <source srcSet="/logo-dark.png" media="(prefers-color-scheme: dark)" />
+                  <img
+                    src="/logo-light.png"
+                    alt="RelocationLogic"
+                    className="logo-image"
+                    width={240}
+                    height={52}
+                    decoding="async"
+                  />
+                </picture>
+                <span className="sr-only">RelocationLogic</span>
               </Link>
               <ul className="nav-links">
                 <li><Link href="/">Home</Link></li>
