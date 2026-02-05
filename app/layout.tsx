@@ -12,9 +12,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head>
-        <script dangerouslySetInnerHTML={{ __html: `(function(){try{var o=location.origin,p=location.pathname,s=location.search||'',h=location.hash||'';var parts=p.split('/');for(var i=parts.length-1;i>=0;i--){if(parts[i]==='')parts.splice(i,1);}var fixed='/' + parts.join('/');if(fixed==='')fixed='/';if(fixed.slice(-5)==='.html')fixed=fixed.slice(0,-5)+'/';if(fixed!==p){var url=o+fixed+s+h;location.replace(url);} }catch(e){} })();` }} />
-      </head>
+      <head />
       <body>
         <header className="site-header">
           <div className="container">

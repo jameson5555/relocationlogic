@@ -19,7 +19,7 @@ export default function CitiesPage() {
             <p>COL Index: {city.costOfLivingIndex} • Avg Rent: {formatCurrency(city.averageRent)}</p>
             <div className="city-links">
               {careers.slice(0, 3).map((career) => (
-                <Link key={career.id} href={`/salary/${city.id}/${career.id}/`} className="career-link">
+                <Link key={career.id} href={`/salary/${city.id}/${career.id}`} className="career-link">
                   {career.title}
                 </Link>
               ))}

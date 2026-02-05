@@ -24,7 +24,7 @@ export default function Home() {
             careers.slice(0, 2).map((career) => (
               <Link
                 key={`${city.id}-${career.id}`}
-                href={`/salary/${city.id}/${career.id}/`}
+                href={`/salary/${city.id}/${career.id}`}
                 className="search-card"
               >
                 <h3>{career.title}</h3>
@@ -58,7 +58,7 @@ export default function Home() {
                 {careers.slice(0, 3).map((career) => (
                   <Link
                     key={career.id}
-                    href={`/salary/${city.id}/${career.id}/`}
+                    href={`/salary/${city.id}/${career.id}`}
                     className="career-link"
                   >
                     {career.title}
