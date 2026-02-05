@@ -300,6 +300,8 @@ for (const city of cities) {
       </section>
 
       <aside class="ad-container">
+        <!-- Google AdSense loader for this ad slot -->
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6539140496743179" crossorigin="anonymous"></script>
         <div class="ad-placeholder">
           <p>Advertisement</p>
         </div>
