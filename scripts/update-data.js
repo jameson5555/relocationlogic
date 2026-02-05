@@ -32,7 +32,12 @@ const ACS_VARS = ['B01003_001E', 'B25077_001E', 'B25064_001E'];
 const CENSUS_API_KEY = process.env.CENSUS_API_KEY || '';
 
 const OEWS_RELEASE = process.env.OEWS_RELEASE || '2023';
-const OEWS_URL = process.env.OEWS_URL || `https://www.bls.gov/oes/special.requests/oesm${OEWS_RELEASE.slice(-2)}ma.zip`;
+const OEWS_URLS = (process.env.OEWS_URLS || '').split(',').map((value) => value.trim()).filter(Boolean);
+const OEWS_DEFAULT_URLS = [
+  `https://www.bls.gov/oes/special.requests/oesm${OEWS_RELEASE.slice(-2)}ma.zip`,
+  `https://download.bls.gov/pub/time.series/oes/oesm${OEWS_RELEASE.slice(-2)}ma.zip`,
+  `https://download.bls.gov/pub/oes/oesm${OEWS_RELEASE.slice(-2)}ma.zip`,
+];
 
 function log(message) {
   console.log(`[update-data] ${message}`);
@@ -116,21 +121,42 @@ async function fetchJson(url) {
 }
 
 async function downloadOewsCsv() {
-  log(`Fetching OEWS data: ${OEWS_URL}`);
-  const response = await fetch(OEWS_URL);
-  if (!response.ok) {
-    throw new Error(`OEWS download failed (${response.status}): ${OEWS_URL}`);
+  const urls = OEWS_URLS.length ? OEWS_URLS : OEWS_DEFAULT_URLS;
+  const errors = [];
+
+  for (const url of urls) {
+    log(`Fetching OEWS data: ${url}`);
+    const response = await fetch(url, {
+      headers: {
+        'User-Agent': 'relocationlogic-data-refresh/1.0',
+        Referer: 'https://www.bls.gov/oes/',
+      },
+    });
+
+    if (!response.ok) {
+      errors.push(`${response.status}: ${url}`);
+      continue;
+    }
+
+    const buffer = Buffer.from(await response.arrayBuffer());
+    const isZip = buffer.length > 4 && buffer[0] === 0x50 && buffer[1] === 0x4b;
+
+    if (!isZip) {
+      return buffer.toString('utf8');
+    }
+
+    const directory = await unzipper.Open.buffer(buffer);
+    const entry = directory.files.find((file) => file.path.endsWith('.csv') || file.path.endsWith('.txt'));
+    if (!entry) {
+      errors.push(`Missing CSV entry in zip: ${url}`);
+      continue;
+    }
+
+    const content = await entry.buffer();
+    return content.toString('utf8');
   }
 
-  const buffer = Buffer.from(await response.arrayBuffer());
-  const directory = await unzipper.Open.buffer(buffer);
-  const entry = directory.files.find((file) => file.path.endsWith('.csv') || file.path.endsWith('.txt'));
-  if (!entry) {
-    throw new Error('OEWS zip did not contain a .csv or .txt file');
-  }
-
-  const content = await entry.buffer();
-  return content.toString('utf8');
+  throw new Error(`OEWS download failed. Attempts: ${errors.join(' | ')}`);
 }
 
 function getNumericField(record, keys) {

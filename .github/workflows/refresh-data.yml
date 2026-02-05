@@ -30,6 +30,7 @@ jobs:
           CENSUS_API_KEY: ${{ secrets.CENSUS_API_KEY }}
           ACS_YEAR: '2022'
           OEWS_RELEASE: '2023'
+          OEWS_URLS: 'https://www.bls.gov/oes/special.requests/oesm23ma.zip,https://download.bls.gov/pub/time.series/oes/oesm23ma.zip,https://download.bls.gov/pub/oes/oesm23ma.zip'
 
       - name: Commit changes if needed
         run: |
