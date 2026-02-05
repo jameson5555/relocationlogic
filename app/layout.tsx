@@ -18,6 +18,8 @@ export default function RootLayout({
         {/* Google tag (gtag.js) - site-wide */}
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-TDVLTM3QGR"></script>
         <script dangerouslySetInnerHTML={{ __html: `window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-TDVLTM3QGR');` }} />
+        {/* Google AdSense loader (site-wide) */}
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6539140496743179" crossOrigin="anonymous"></script>
       </head>
       <body>
         <header className="site-header">
