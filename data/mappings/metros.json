@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "source": "BLS OEWS area codes (MSA)",
+  "notes": "Map each cityId to an OEWS MSA area code. Verify codes against OEWS area list when updating release.",
+  "metros": [
+    { "cityId": "new-york-ny", "areaCode": "35620", "areaName": "New York-Newark-Jersey City, NY-NJ-PA" },
+    { "cityId": "san-francisco-ca", "areaCode": "41860", "areaName": "San Francisco-Oakland-Berkeley, CA" },
+    { "cityId": "austin-tx", "areaCode": "12420", "areaName": "Austin-Round Rock, TX" },
+    { "cityId": "seattle-wa", "areaCode": "42660", "areaName": "Seattle-Tacoma-Bellevue, WA" },
+    { "cityId": "miami-fl", "areaCode": "33100", "areaName": "Miami-Fort Lauderdale-West Palm Beach, FL" },
+    { "cityId": "chicago-il", "areaCode": "16980", "areaName": "Chicago-Naperville-Elgin, IL-IN-WI" },
+    { "cityId": "denver-co", "areaCode": "19740", "areaName": "Denver-Aurora-Lakewood, CO" },
+    { "cityId": "atlanta-ga", "areaCode": "12060", "areaName": "Atlanta-Sandy Springs-Alpharetta, GA" },
+    { "cityId": "boston-ma", "areaCode": "14460", "areaName": "Boston-Cambridge-Newton, MA-NH" },
+    { "cityId": "portland-or", "areaCode": "38900", "areaName": "Portland-Vancouver-Hillsboro, OR-WA" }
+  ]
+}

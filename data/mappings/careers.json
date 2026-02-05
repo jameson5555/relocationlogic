@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "source": "BLS OEWS occupation codes (SOC)",
+  "notes": "Mappings are best-fit proxies. Review periodically as SOC codes change.",
+  "careers": [
+    { "careerId": "software-engineer", "socCode": "15-1252", "socTitle": "Software Developers" },
+    { "careerId": "data-scientist", "socCode": "15-2051", "socTitle": "Data Scientists" },
+    { "careerId": "product-manager", "socCode": "11-2021", "socTitle": "Marketing Managers", "notes": "Proxy for product management" },
+    { "careerId": "marketing-manager", "socCode": "11-2021", "socTitle": "Marketing Managers" },
+    { "careerId": "financial-analyst", "socCode": "13-2051", "socTitle": "Financial Analysts" },
+    { "careerId": "registered-nurse", "socCode": "29-1141", "socTitle": "Registered Nurses" },
+    { "careerId": "civil-engineer", "socCode": "17-2051", "socTitle": "Civil Engineers" },
+    { "careerId": "ux-designer", "socCode": "15-1255", "socTitle": "Web and Digital Interface Designers" },
+    { "careerId": "business-analyst", "socCode": "13-1111", "socTitle": "Management Analysts" },
+    { "careerId": "accountant", "socCode": "13-2011", "socTitle": "Accountants and Auditors" }
+  ]
+}

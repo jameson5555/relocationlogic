@@ -158,6 +158,8 @@ Key files:
 - data/careers.json (generated)
 - data/meta.json (per-dataset timestamps + sources)
 - data/mappings/cities.json (Census place FIPS mapping)
+- data/mappings/metros.json (OEWS MSA area codes)
+- data/mappings/careers.json (OEWS SOC codes)
 
 Run locally:
 

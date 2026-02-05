@@ -15,17 +15,24 @@
 
 const fs = require('fs');
 const path = require('path');
+const unzipper = require('unzipper');
 
 const ROOT = path.join(__dirname, '..');
 const DATA_DIR = path.join(ROOT, 'data');
 const MAPPINGS_PATH = path.join(DATA_DIR, 'mappings', 'cities.json');
 const CITIES_PATH = path.join(DATA_DIR, 'cities.json');
+const CAREERS_PATH = path.join(DATA_DIR, 'careers.json');
 const META_PATH = path.join(DATA_DIR, 'meta.json');
+const METRO_MAPPING_PATH = path.join(DATA_DIR, 'mappings', 'metros.json');
+const CAREER_MAPPING_PATH = path.join(DATA_DIR, 'mappings', 'careers.json');
 
 const ACS_YEAR = process.env.ACS_YEAR || '2022';
 const ACS_BASE = `https://api.census.gov/data/${ACS_YEAR}/acs/acs5`;
 const ACS_VARS = ['B01003_001E', 'B25077_001E', 'B25064_001E'];
 const CENSUS_API_KEY = process.env.CENSUS_API_KEY || '';
+
+const OEWS_RELEASE = process.env.OEWS_RELEASE || '2023';
+const OEWS_URL = process.env.OEWS_URL || `https://www.bls.gov/oes/special.requests/oesm${OEWS_RELEASE.slice(-2)}ma.zip`;
 
 function log(message) {
   console.log(`[update-data] ${message}`);
@@ -43,6 +50,46 @@ function writeJsonAtomic(filePath, data) {
   const tempPath = `${filePath}.tmp`;
   fs.writeFileSync(tempPath, `${JSON.stringify(data, null, 2)}\n`, 'utf8');
   fs.renameSync(tempPath, filePath);
+}
+
+function parseCsvLine(line) {
+  const result = [];
+  let current = '';
+  let inQuotes = false;
+
+  for (let i = 0; i < line.length; i += 1) {
+    const char = line[i];
+    if (char === '"') {
+      if (inQuotes && line[i + 1] === '"') {
+        current += '"';
+        i += 1;
+      } else {
+        inQuotes = !inQuotes;
+      }
+    } else if (char === ',' && !inQuotes) {
+      result.push(current);
+      current = '';
+    } else {
+      current += char;
+    }
+  }
+
+  result.push(current);
+  return result;
+}
+
+function parseCsv(text) {
+  const lines = text.split(/\r?\n/).filter((line) => line.trim().length > 0);
+  if (!lines.length) return [];
+  const header = parseCsvLine(lines[0]).map((value) => value.trim());
+  return lines.slice(1).map((line) => {
+    const row = parseCsvLine(line);
+    const record = {};
+    header.forEach((key, index) => {
+      record[key] = row[index];
+    });
+    return record;
+  });
 }
 
 function toNumber(value) {
@@ -66,6 +113,35 @@ async function fetchJson(url) {
     throw new Error(`Request failed (${response.status}): ${url}`);
   }
   return response.json();
+}
+
+async function downloadOewsCsv() {
+  log(`Fetching OEWS data: ${OEWS_URL}`);
+  const response = await fetch(OEWS_URL);
+  if (!response.ok) {
+    throw new Error(`OEWS download failed (${response.status}): ${OEWS_URL}`);
+  }
+
+  const buffer = Buffer.from(await response.arrayBuffer());
+  const directory = await unzipper.Open.buffer(buffer);
+  const entry = directory.files.find((file) => file.path.endsWith('.csv') || file.path.endsWith('.txt'));
+  if (!entry) {
+    throw new Error('OEWS zip did not contain a .csv or .txt file');
+  }
+
+  const content = await entry.buffer();
+  return content.toString('utf8');
+}
+
+function getNumericField(record, keys) {
+  for (const key of keys) {
+    const value = record[key];
+    if (value === undefined || value === null) continue;
+    if (value === '*' || value === '#') continue;
+    const parsed = Number(value);
+    if (Number.isFinite(parsed)) return parsed;
+  }
+  return null;
 }
 
 async function fetchAcsPlace(stateFips, placeFips) {
@@ -145,6 +221,19 @@ function validateCity(city) {
   });
 }
 
+function validateCareer(career) {
+  const required = ['id', 'title', 'category', 'description', 'medianSalary'];
+  required.forEach((field) => {
+    if (!career[field]) {
+      throw new Error(`Missing required career field: ${field} (${career.id || 'unknown'})`);
+    }
+  });
+
+  if (!Number.isFinite(career.medianSalary)) {
+    throw new Error(`Invalid medianSalary for ${career.id}`);
+  }
+}
+
 async function updateCities() {
   const cities = loadJson(CITIES_PATH, []);
   const mapping = loadJson(MAPPINGS_PATH, { cities: [] });
@@ -200,21 +289,122 @@ async function updateCities() {
   return { updatedCities, sourceUrls: Array.from(sourceUrls) };
 }
 
-function updateMeta(nowIso, sourceUrls) {
+async function updateCareers() {
+  const careers = loadJson(CAREERS_PATH, []);
+  const metros = loadJson(METRO_MAPPING_PATH, { metros: [] });
+  const careerMapping = loadJson(CAREER_MAPPING_PATH, { careers: [] });
+
+  if (!Array.isArray(careers) || !careers.length) {
+    throw new Error('careers.json is empty or invalid');
+  }
+
+  const metroCodes = new Set((metros.metros || []).map((entry) => entry.areaCode));
+  if (!metroCodes.size) {
+    throw new Error('No OEWS metro mappings found');
+  }
+
+  const careerById = new Map(careers.map((career) => [career.id, career]));
+  const socByCareerId = new Map(
+    (careerMapping.careers || []).map((entry) => [entry.careerId, entry.socCode])
+  );
+
+  const missingMappings = careers.filter((career) => !socByCareerId.has(career.id));
+  if (missingMappings.length) {
+    throw new Error(`Missing SOC mappings for career IDs: ${missingMappings.map((c) => c.id).join(', ')}`);
+  }
+
+  const csvText = await downloadOewsCsv();
+  const records = parseCsv(csvText);
+  if (!records.length) {
+    throw new Error('OEWS CSV parse returned no rows');
+  }
+
+  const header = Object.keys(records[0]);
+  const headerLower = header.reduce((acc, key) => {
+    acc[key.toLowerCase()] = key;
+    return acc;
+  }, {});
+  const areaKey = headerLower.area || headerLower.area_code;
+  const occKey = headerLower.occ_code || headerLower.occ;
+
+  if (!areaKey || !occKey) {
+    throw new Error('OEWS CSV missing AREA or OCC_CODE columns');
+  }
+
+  const aggregated = new Map();
+  const socToCareerId = new Map(
+    (careerMapping.careers || []).map((entry) => [entry.socCode, entry.careerId])
+  );
+
+  for (const record of records) {
+    const areaCode = record[areaKey];
+    const occCode = record[occKey];
+    if (!metroCodes.has(areaCode)) continue;
+    if (!occCode || occCode === '00-0000') continue;
+
+    const careerId = socToCareerId.get(occCode);
+    if (!careerId) continue;
+
+    const median = getNumericField(record, ['A_MEDIAN', 'a_median', 'a_median_salary']);
+    const mean = getNumericField(record, ['A_MEAN', 'a_mean']);
+    const pct10 = getNumericField(record, ['A_PCT10', 'a_pct10']);
+    const pct90 = getNumericField(record, ['A_PCT90', 'a_pct90']);
+
+    if (!median && !mean) continue;
+
+    const entry = aggregated.get(careerId) || { medians: [], pct10s: [], pct90s: [] };
+    if (median) entry.medians.push(median);
+    if (!median && mean) entry.medians.push(mean);
+    if (pct10) entry.pct10s.push(pct10);
+    if (pct90) entry.pct90s.push(pct90);
+    aggregated.set(careerId, entry);
+  }
+
+  const updatedCareers = careers.map((career) => {
+    const entry = aggregated.get(career.id);
+    if (!entry || !entry.medians.length) {
+      return career;
+    }
+
+    const medianSalary = Math.round(entry.medians.reduce((sum, value) => sum + value, 0) / entry.medians.length);
+    const minSalary = entry.pct10s.length
+      ? Math.round(entry.pct10s.reduce((sum, value) => sum + value, 0) / entry.pct10s.length)
+      : career.salaryRange.min;
+    const maxSalary = entry.pct90s.length
+      ? Math.round(entry.pct90s.reduce((sum, value) => sum + value, 0) / entry.pct90s.length)
+      : career.salaryRange.max;
+
+    const nextCareer = {
+      ...career,
+      medianSalary,
+      salaryRange: {
+        min: minSalary,
+        max: maxSalary,
+      },
+    };
+
+    validateCareer(nextCareer);
+    return nextCareer;
+  });
+
+  return { updatedCareers, sourceUrls: [OEWS_URL] };
+}
+
+function updateMeta(nowIso, sourceUrls, datasetId, release, notes) {
   const meta = loadJson(META_PATH, { datasets: {} });
   const dataset = {
-    id: 'censusAcs',
-    release: `ACS ${ACS_YEAR} 5-year`,
+    id: datasetId,
+    release,
     lastUpdated: nowIso,
     retrievedAt: nowIso,
-    sourceUrl: ACS_BASE,
-    notes: `Tables: ${ACS_VARS.join(', ')}. Sources: ${sourceUrls.join(' | ')}`,
+    sourceUrl: sourceUrls[0] || '',
+    notes,
   };
 
   return {
     datasets: {
       ...meta.datasets,
-      censusAcs: dataset,
+      [datasetId]: dataset,
     },
   };
 }
@@ -223,22 +413,53 @@ async function main() {
   const nowIso = new Date().toISOString();
   log('Starting data refresh...');
 
-  const { updatedCities, sourceUrls } = await updateCities();
+  const { updatedCities, sourceUrls: acsSources } = await updateCities();
+  const { updatedCareers, sourceUrls: oewsSources } = await updateCareers();
 
   const currentCities = loadJson(CITIES_PATH, []);
+  const currentCareers = loadJson(CAREERS_PATH, []);
   const nextCitiesJson = JSON.stringify(updatedCities, null, 2);
   const currentCitiesJson = JSON.stringify(currentCities, null, 2);
+  const nextCareersJson = JSON.stringify(updatedCareers, null, 2);
+  const currentCareersJson = JSON.stringify(currentCareers, null, 2);
 
-  if (nextCitiesJson === currentCitiesJson) {
-    log('No city data changes detected. Skipping write.');
-    return;
+  let wrote = false;
+
+  if (nextCitiesJson !== currentCitiesJson) {
+    log('City data changes detected. Writing updates...');
+    writeJsonAtomic(CITIES_PATH, updatedCities);
+    const metaUpdate = updateMeta(
+      nowIso,
+      acsSources,
+      'censusAcs',
+      `ACS ${ACS_YEAR} 5-year`,
+      `Tables: ${ACS_VARS.join(', ')}. Sources: ${acsSources.join(' | ')}`
+    );
+    writeJsonAtomic(META_PATH, metaUpdate);
+    wrote = true;
+  } else {
+    log('No city data changes detected.');
   }
 
-  log('City data changes detected. Writing updates...');
-  writeJsonAtomic(CITIES_PATH, updatedCities);
+  if (nextCareersJson !== currentCareersJson) {
+    log('Career data changes detected. Writing updates...');
+    writeJsonAtomic(CAREERS_PATH, updatedCareers);
+    const metaUpdate = updateMeta(
+      nowIso,
+      oewsSources,
+      'blsOews',
+      `OEWS ${OEWS_RELEASE}`,
+      `Metro area averages from ${OEWS_URL}. Areas from data/mappings/metros.json`
+    );
+    writeJsonAtomic(META_PATH, metaUpdate);
+    wrote = true;
+  } else {
+    log('No career data changes detected.');
+  }
 
-  const nextMeta = updateMeta(nowIso, sourceUrls);
-  writeJsonAtomic(META_PATH, nextMeta);
+  if (!wrote) {
+    log('No data changes detected.');
+  }
 
   log('Data refresh complete.');
 }
