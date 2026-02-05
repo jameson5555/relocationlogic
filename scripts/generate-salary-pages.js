@@ -4,6 +4,7 @@ const path = require('path');
 const outDir = path.join(__dirname, '..', 'out');
 const citiesPath = path.join(__dirname, '..', 'data', 'cities.json');
 const careersPath = path.join(__dirname, '..', 'data', 'careers.json');
+const metaPath = path.join(__dirname, '..', 'data', 'meta.json');
 
 function formatCurrency(amount) {
   return new Intl.NumberFormat('en-US', {
@@ -106,6 +107,30 @@ function calculateCostOfLiving(salary, costOfLivingIndex, monthlyRent) {
   };
 }
 
+function formatLastUpdated(lastUpdated) {
+  if (!lastUpdated) return null;
+  const parsed = new Date(lastUpdated);
+  if (Number.isNaN(parsed.getTime())) return null;
+  return parsed.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+}
+
+function getSiteLastUpdated(meta) {
+  if (!meta || !meta.datasets) return null;
+  const dates = [meta.datasets.censusAcs, meta.datasets.blsOews]
+    .map((dataset) => dataset?.lastUpdated)
+    .filter(Boolean)
+    .map((value) => new Date(value))
+    .filter((value) => !Number.isNaN(value.getTime()));
+
+  if (!dates.length) return null;
+  const latest = new Date(Math.max(...dates.map((value) => value.getTime())));
+  return latest.toISOString();
+}
+
 function deterministicSampleSize(key) {
   let hash = 5381;
   for (let i = 0; i < key.length; i++) {
@@ -122,6 +147,16 @@ if (!fs.existsSync(outDir)) {
 
 const cities = JSON.parse(fs.readFileSync(citiesPath, 'utf8'));
 const careers = JSON.parse(fs.readFileSync(careersPath, 'utf8'));
+let meta = { datasets: {} };
+if (fs.existsSync(metaPath)) {
+  try {
+    meta = JSON.parse(fs.readFileSync(metaPath, 'utf8'));
+  } catch (err) {
+    console.warn('Could not parse data/meta.json, skipping last updated in footer.');
+  }
+}
+
+const lastUpdated = formatLastUpdated(getSiteLastUpdated(meta));
 
 const cssDir = path.join(outDir, '_next', 'static', 'chunks');
 let cssLinks = [];
@@ -177,11 +212,24 @@ for (const city of cities) {
   <header class="site-header">
     <div class="container">
       <nav class="main-nav">
-        <a href="/" class="logo"><h1>RelocationLogic</h1></a>
+        <a href="/" class="logo" aria-label="RelocationLogic home">
+          <picture>
+            <source srcset="/logo-dark.png" media="(prefers-color-scheme: dark)" />
+            <img
+              src="/logo-light.png"
+              alt="RelocationLogic"
+              class="logo-image"
+              width="240"
+              height="52"
+              decoding="async"
+            />
+          </picture>
+          <span class="sr-only">RelocationLogic</span>
+        </a>
         <ul class="nav-links">
           <li><a href="/">Home</a></li>
-          <li><a href="/cities/">Cities</a></li>
-          <li><a href="/careers/">Careers</a></li>
+          <li><a href="/cities">Cities</a></li>
+          <li><a href="/careers">Careers</a></li>
         </ul>
       </nav>
     </div>
@@ -258,6 +306,7 @@ for (const city of cities) {
     <div class="container">
       <p>© 2024 RelocationLogic. All rights reserved.</p>
       <p>Make informed career and relocation decisions with data-driven insights.</p>
+      ${lastUpdated ? `<p class="data-updated">Data last updated: ${lastUpdated}</p>` : ''}
     </div>
   </footer>
 </body>
