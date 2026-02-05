@@ -40,7 +40,6 @@ export function generateHomeMetadata(): Metadata {
       ],
       locale: 'en_US',
       type: 'website',
-      modifiedTime: lastUpdated || undefined,
     },
     twitter: {
       card: 'summary_large_image',
