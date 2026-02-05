@@ -496,7 +496,7 @@ async function main() {
       oewsSources,
       'blsOews',
       `OEWS ${OEWS_RELEASE}`,
-      `Metro area averages from ${OEWS_URL}. Areas from data/mappings/metros.json`
+      `Metro area averages from ${oewsSources.join(' | ')}. Areas from data/mappings/metros.json`
     );
     writeJsonAtomic(META_PATH, metaUpdate);
     wrote = true;
