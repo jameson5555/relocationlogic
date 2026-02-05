@@ -434,7 +434,8 @@ async function updateCareers() {
     return nextCareer;
   });
 
-  return { updatedCareers, sourceUrls: [OEWS_URL] };
+  const sourceUrls = OEWS_URLS.length ? OEWS_URLS : OEWS_DEFAULT_URLS;
+  return { updatedCareers, sourceUrls };
 }
 
 function updateMeta(nowIso, sourceUrls, datasetId, release, notes) {
