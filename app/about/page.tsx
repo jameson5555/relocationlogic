@@ -14,7 +14,7 @@ export default function AboutPage() {
     <div className="container">
       <main style={{ padding: '2rem 0' }}>
         <h1>About RelocationLogic</h1>
-        <p style={{ maxWidth: 820, color: 'var(--muted-foreground)' }}>
+        <p style={{ maxWidth: 820, color: 'var(--muted-foreground)', marginBottom: "20px" }}>
           RelocationLogic helps people make better career and relocation decisions
           by combining authoritative public data sources with practical, easy-to-understand
           salary and cost-of-living analysis. We provide city-level and occupation-level
@@ -23,7 +23,7 @@ export default function AboutPage() {
         </p>
 
         <h2>Our Mission</h2>
-        <p style={{ maxWidth: 820, color: 'var(--muted-foreground)' }}>
+        <p style={{ maxWidth: 820, color: 'var(--muted-foreground)', marginBottom: "20px"  }}>
           Our mission is to increase transparency in career mobility decisions by
           delivering clear, data-driven insights. We prioritize accuracy, reproducibility,
           and accessibility — presenting complex datasets in a usable format for
@@ -35,7 +35,7 @@ export default function AboutPage() {
           The platform aggregates and processes public datasets and authoritative
           statistics, including:
         </p>
-        <ul style={{ color: 'var(--muted-foreground)', maxWidth: 820 }}>
+        <ul style={{ color: 'var(--muted-foreground)', maxWidth: 820, marginBottom: "20px" }}>
           <li>
             U.S. Census Bureau — American Community Survey (ACS): demographic and
             cost-of-living indicators used to estimate city-level adjustments.
