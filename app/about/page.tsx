@@ -54,17 +54,8 @@ export default function AboutPage() {
 
         <h2>Keeping Data Fresh</h2>
         <p style={{ maxWidth: 820, color: 'var(--muted-foreground)' }}>
-          Data is refreshed on a scheduled cadence using automated scripts that
-          pull the latest releases from the data providers, transform and validate
-          the datasets, and publish updates. The most recent dataset refresh is:
+          Data is updated monthly. The most recent dataset refresh is:
           {lastUpdated ? ` ${lastUpdated}` : ' not available'}.
-        </p>
-
-        <h2>Transparency & Reproducibility</h2>
-        <p style={{ maxWidth: 820, color: 'var(--muted-foreground)' }}>
-          All processing scripts, mappings, and data provenance are maintained in
-          this repository. If you have questions about a particular city, career,
-          or calculation, please open an issue or submit a pull request for review.
         </p>
       </main>
     </div>
