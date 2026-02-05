@@ -16,6 +16,7 @@
 const fs = require('fs');
 const path = require('path');
 const unzipper = require('unzipper');
+const xlsx = require('xlsx');
 
 const ROOT = path.join(__dirname, '..');
 const DATA_DIR = path.join(ROOT, 'data');
@@ -57,7 +58,7 @@ function writeJsonAtomic(filePath, data) {
   fs.renameSync(tempPath, filePath);
 }
 
-function parseCsvLine(line) {
+function parseDelimitedLine(line, delimiter) {
   const result = [];
   let current = '';
   let inQuotes = false;
@@ -71,7 +72,7 @@ function parseCsvLine(line) {
       } else {
         inQuotes = !inQuotes;
       }
-    } else if (char === ',' && !inQuotes) {
+    } else if (char === delimiter && !inQuotes) {
       result.push(current);
       current = '';
     } else {
@@ -83,18 +84,24 @@ function parseCsvLine(line) {
   return result;
 }
 
-function parseCsv(text) {
+function parseDelimited(text, delimiter) {
   const lines = text.split(/\r?\n/).filter((line) => line.trim().length > 0);
   if (!lines.length) return [];
-  const header = parseCsvLine(lines[0]).map((value) => value.trim());
+  const header = parseDelimitedLine(lines[0], delimiter).map((value) => value.trim());
   return lines.slice(1).map((line) => {
-    const row = parseCsvLine(line);
+    const row = parseDelimitedLine(line, delimiter);
     const record = {};
     header.forEach((key, index) => {
       record[key] = row[index];
     });
     return record;
   });
+}
+
+function parseOewsText(text) {
+  const firstLine = text.split(/\r?\n/)[0] || '';
+  const delimiter = firstLine.includes('\t') ? '\t' : ',';
+  return parseDelimited(text, delimiter);
 }
 
 function toNumber(value) {
@@ -142,18 +149,32 @@ async function downloadOewsCsv() {
     const isZip = buffer.length > 4 && buffer[0] === 0x50 && buffer[1] === 0x4b;
 
     if (!isZip) {
-      return buffer.toString('utf8');
+      return { text: buffer.toString('utf8') };
     }
 
     const directory = await unzipper.Open.buffer(buffer);
-    const entry = directory.files.find((file) => file.path.endsWith('.csv') || file.path.endsWith('.txt'));
+    const entry = directory.files.find((file) =>
+      file.path.endsWith('.csv') || file.path.endsWith('.txt') || file.path.endsWith('.dat') || file.path.endsWith('.xlsx')
+    );
     if (!entry) {
       errors.push(`Missing CSV entry in zip: ${url}`);
       continue;
     }
 
     const content = await entry.buffer();
-    return content.toString('utf8');
+    if (entry.path.endsWith('.xlsx')) {
+      const workbook = xlsx.read(content, { type: 'buffer' });
+      const firstSheet = workbook.SheetNames[0];
+      if (!firstSheet) {
+        errors.push(`Missing sheet in XLSX: ${url}`);
+        continue;
+      }
+      const sheet = workbook.Sheets[firstSheet];
+      const csv = xlsx.utils.sheet_to_csv(sheet);
+      return { text: csv };
+    }
+
+    return { text: content.toString('utf8') };
   }
 
   throw new Error(`OEWS download failed. Attempts: ${errors.join(' | ')}`);
@@ -339,8 +360,8 @@ async function updateCareers() {
     throw new Error(`Missing SOC mappings for career IDs: ${missingMappings.map((c) => c.id).join(', ')}`);
   }
 
-  const csvText = await downloadOewsCsv();
-  const records = parseCsv(csvText);
+  const { text } = await downloadOewsCsv();
+  const records = parseOewsText(text);
   if (!records.length) {
     throw new Error('OEWS CSV parse returned no rows');
   }
