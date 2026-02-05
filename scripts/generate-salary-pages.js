@@ -233,6 +233,7 @@ for (const city of cities) {
           <li><a href="/">Home</a></li>
           <li><a href="/cities">Cities</a></li>
           <li><a href="/careers">Careers</a></li>
+          <li><a href="/about">About</a></li>
         </ul>
       </nav>
     </div>
