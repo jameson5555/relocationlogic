@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { getCities, getCareers, formatCurrency } from "@/lib/data";
 
 export default function Home() {
@@ -22,7 +21,7 @@ export default function Home() {
         <div className="search-grid">
           {cities.slice(0, 5).map((city) =>
             careers.slice(0, 2).map((career) => (
-              <Link
+              <a
                 key={`${city.id}-${career.id}`}
                 href={`/salary/${city.id}/${career.id}/`}
                 className="search-card"
@@ -30,7 +29,7 @@ export default function Home() {
                 <h3>{career.title}</h3>
                 <p>{city.name}, {city.stateCode}</p>
                 <span className="arrow">→</span>
-              </Link>
+              </a>
             ))
           )}
         </div>
@@ -56,13 +55,13 @@ export default function Home() {
               </div>
               <div className="city-careers">
                 {careers.slice(0, 3).map((career) => (
-                  <Link
+                  <a
                     key={career.id}
                     href={`/salary/${city.id}/${career.id}/`}
                     className="career-link"
                   >
                     {career.title}
-                  </Link>
+                  </a>
                 ))}
               </div>
             </div>

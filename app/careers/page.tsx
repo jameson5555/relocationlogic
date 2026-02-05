@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import { getCareers, getCities, formatCurrency } from '@/lib/data';
 
 export default function CareersPage() {
@@ -20,9 +19,9 @@ export default function CareersPage() {
             <p>{career.description}</p>
             <div className="career-links">
               {cities.slice(0, 3).map((city) => (
-                <Link key={city.id} href={`/salary/${city.id}/${career.id}/`} className="salary-link">
+                <a key={city.id} href={`/salary/${city.id}/${career.id}/`} className="salary-link">
                   {city.name}, {city.stateCode}
-                </Link>
+                </a>
               ))}
             </div>
           </article>
