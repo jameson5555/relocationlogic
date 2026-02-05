@@ -173,6 +173,8 @@ const cssTags = cssLinks
   .map((f) => `<link rel="stylesheet" href="/_next/static/chunks/${f}" />`)
   .join('\n');
 
+const gtagHead = `<!-- Google tag (gtag.js) -->\n<script async src="https://www.googletagmanager.com/gtag/js?id=G-TDVLTM3QGR"></script>\n<script>window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-TDVLTM3QGR');</script>`;
+
 let created = 0;
 
 for (const city of cities) {
@@ -206,7 +208,8 @@ for (const city of cities) {
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>${title}</title>
   <link rel="icon" href="/favicon.ico"/>
-  ${cssTags}
+      ${cssTags}
+      ${gtagHead}
 </head>
 <body>
   <header class="site-header">

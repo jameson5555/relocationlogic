@@ -14,7 +14,11 @@ export default function RootLayout({
   const lastUpdated = formatLastUpdated(getSiteLastUpdated());
   return (
     <html lang="en">
-      <head />
+      <head>
+        {/* Google tag (gtag.js) - site-wide */}
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-TDVLTM3QGR"></script>
+        <script dangerouslySetInnerHTML={{ __html: `window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-TDVLTM3QGR');` }} />
+      </head>
       <body>
         <header className="site-header">
           <div className="container">
