@@ -1,0 +1,5 @@
+# RelocationLogic ads.txt
+# Auto-generated placeholder for Google AdSense
+# Replace or add other ad partners here if necessary
+# Generated: 2026-02-09
+google.com, pub-6539140496743179, DIRECT, f08c47fec0942fa0
