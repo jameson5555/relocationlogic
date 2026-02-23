@@ -56,14 +56,9 @@ export default function RootLayout({
             <p>&copy; 2024 RelocationLogic. All rights reserved.</p>
             <p className="mission">RelocationLogic helps professionals make clear, data-informed relocation decisions focused on career and cost-of-living tradeoffs.</p>
             <nav className="footer-nav">
-              <ul>
-                <li><Link href="/about">About</Link></li>
-                <li><Link href="/methodology">Methodology</Link></li>
-                <li><Link href="/privacy-policy">Privacy</Link></li>
-                <li><Link href="/terms">Terms</Link></li>
-                <li><Link href="/contact">Contact</Link></li>
-                <li><Link href="/guides">Guides</Link></li>
-              </ul>
+              <p className="footer-links">
+                <Link href="/about">About</Link> &nbsp;|&nbsp; <Link href="/methodology">Methodology</Link> &nbsp;|&nbsp; <Link href="/privacy-policy">Privacy</Link> &nbsp;|&nbsp; <Link href="/terms">Terms</Link> &nbsp;|&nbsp; <Link href="/contact">Contact</Link> &nbsp;|&nbsp; <Link href="/guides">Guides</Link>
+              </p>
             </nav>
             {lastUpdated && (
               <p className="data-updated">Data last updated: {lastUpdated}</p>
