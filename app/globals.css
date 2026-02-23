@@ -207,8 +207,10 @@ h1, h2, h3, h4, h5, h6 {
 .page-body p {
   margin-bottom: 1rem;
 }
-.page-body ul {
+.page-body ul,
+.page-body ol {
   margin-bottom: 1rem;
+  margin-left: 1.5rem;
 }
 
 /* Page main wrapper spacing used by about and long-form pages */
@@ -602,11 +604,12 @@ h1, h2, h3, h4, h5, h6 {
 .human-interpretation {
   display: block;
   /* Brighter green tint similar to Net Annual Salary row */
-  background: rgba(16,185,129,0.08);
+  background: rgba(16,185,129,0.2);
   border: 1px solid rgba(16,185,129,0.14);
   padding: 1.25rem 1.25rem;
   border-radius: 8px;
   margin-bottom: 3rem;
+  color: white;
 }
 .human-interpretation .hi-header {
   display: flex;
