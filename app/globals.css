@@ -147,6 +147,14 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--muted-foreground);
 }
 
+/* Page-specific paragraph spacing used by trust/guides pages */
+.page-body p {
+  margin-bottom: 1rem;
+}
+.page-body ul {
+  margin-bottom: 1rem;
+}
+
 /* Home Page */
 .home-page {
   padding: 2rem 0;

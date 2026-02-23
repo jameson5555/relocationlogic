@@ -14,20 +14,22 @@ export default function CompareCitiesGuide() {
         <p className="lead">A framework for prioritizing cities that support your long-term career goals.</p>
       </header>
 
-      <section>
-        <h2>Identify opportunity indicators</h2>
-        <p>Look for local industry presence, job postings, and growth rates. Our <Link href="/careers">career pages</Link> and <Link href="/cities">city pages</Link> provide useful starting points.</p>
-      </section>
+      <div className="page-body">
+        <section>
+          <h2>Identify opportunity indicators</h2>
+          <p>Look for local industry presence, job postings, and growth rates. Our <Link href="/careers">career pages</Link> and <Link href="/cities">city pages</Link> provide useful starting points.</p>
+        </section>
 
-      <section>
-        <h2>Compare affordability and mobility</h2>
-        <p>Balance salary with housing and transport costs. Use salary and cost-of-living figures together to estimate real mobility.</p>
-      </section>
+        <section>
+          <h2>Compare affordability and mobility</h2>
+          <p>Balance salary with housing and transport costs. Use salary and cost-of-living figures together to estimate real mobility.</p>
+        </section>
 
-      <section>
-        <h2>Network and mentorship</h2>
-        <p>Consider where mentors, conferences, and industry meetups occur — geographic proximity can accelerate promotions and learning.</p>
-      </section>
+        <section>
+          <h2>Network and mentorship</h2>
+          <p>Consider where mentors, conferences, and industry meetups occur — geographic proximity can accelerate promotions and learning.</p>
+        </section>
+      </div>
     </div>
   );
 }

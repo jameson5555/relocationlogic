@@ -14,15 +14,17 @@ export default function GuidesIndex() {
         <p className="lead">Practical, human-centered guidance for relocation and career decisions.</p>
       </header>
 
-      <ul>
-        <li><Link href="/guides/how-to-evaluate-a-relocation-offer">How to evaluate a relocation offer</Link></li>
-        <li><Link href="/guides/hidden-costs-of-moving-cities">Hidden costs of moving cities</Link></li>
-        <li><Link href="/guides/cost-of-living-mistakes">Cost-of-living mistakes</Link></li>
-        <li><Link href="/guides/remote-work-relocation-strategy">Remote work relocation strategy</Link></li>
-        <li><Link href="/guides/how-to-compare-cities-for-career-growth">How to compare cities for career growth</Link></li>
-      </ul>
+      <div className="page-body">
+        <ul>
+          <li><Link href="/guides/how-to-evaluate-a-relocation-offer">How to evaluate a relocation offer</Link></li>
+          <li><Link href="/guides/hidden-costs-of-moving-cities">Hidden costs of moving cities</Link></li>
+          <li><Link href="/guides/cost-of-living-mistakes">Cost-of-living mistakes</Link></li>
+          <li><Link href="/guides/remote-work-relocation-strategy">Remote work relocation strategy</Link></li>
+          <li><Link href="/guides/how-to-compare-cities-for-career-growth">How to compare cities for career growth</Link></li>
+        </ul>
 
-      <p>Explore our <Link href="/cities">city pages</Link> and <Link href="/careers">career pages</Link> to see the data behind these guides.</p>
+        <p>Explore our <Link href="/cities">city pages</Link> and <Link href="/careers">career pages</Link> to see the data behind these guides.</p>
+      </div>
     </div>
   );
 }

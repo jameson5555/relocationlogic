@@ -14,15 +14,17 @@ export default function RemoteWorkGuide() {
         <p className="lead">Deciding if and when remote workers should relocate.</p>
       </header>
 
-      <section>
-        <h2>Employer policy and tax residency</h2>
-        <p>Confirm your employer’s remote policy and whether moving affects payroll, taxes, and benefits. Use our <Link href="/methodology">methodology</Link> and <Link href="/privacy-policy">privacy</Link> pages to understand related considerations.</p>
-      </section>
+      <div className="page-body">
+        <section>
+          <h2>Employer policy and tax residency</h2>
+          <p>Confirm your employer’s remote policy and whether moving affects payroll, taxes, and benefits. Use our <Link href="/methodology">methodology</Link> and <Link href="/privacy-policy">privacy</Link> pages to understand related considerations.</p>
+        </section>
 
-      <section>
-        <h2>Quality-of-life vs. career proximity</h2>
-        <p>Weigh lifestyle improvements against being near hiring markets and mentorship opportunities. See city indicators on our <Link href="/cities">city pages</Link>.</p>
-      </section>
+        <section>
+          <h2>Quality-of-life vs. career proximity</h2>
+          <p>Weigh lifestyle improvements against being near hiring markets and mentorship opportunities. See city indicators on our <Link href="/cities">city pages</Link>.</p>
+        </section>
+      </div>
     </div>
   );
 }
