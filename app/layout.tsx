@@ -52,7 +52,6 @@ export default function RootLayout({
           <div className="container footer-grid">
             <div className="footer-col footer-platform">
               <h3>RelocationLogic</h3>
-              <p className="muted">Data-driven relocation & career insights. Built from public datasets and industry sources.</p>
               <p className="footer-mission">RelocationLogic helps professionals make clear, data-informed relocation decisions.</p>
             </div>
 

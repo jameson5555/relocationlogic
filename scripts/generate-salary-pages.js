@@ -364,7 +364,6 @@ for (const city of cities) {
     <div class="container footer-grid">
       <div class="footer-col footer-platform">
         <h3>RelocationLogic</h3>
-        <p class="muted">Data-driven relocation &amp; career insights. Built from public datasets and industry sources.</p>
         <p class="footer-mission">RelocationLogic helps professionals make clear, data-informed relocation decisions.</p>
       </div>
 
