@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import CookieConsent from '@/components/CookieConsent';
+import ConsentScriptLoader from '@/components/ConsentScriptLoader';
 import { generateHomeMetadata } from "@/lib/metadata";
 import { formatLastUpdated, getSiteLastUpdated } from "@/lib/data";
 import Link from "next/link";
@@ -16,11 +18,6 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-        {/* Google tag (gtag.js) - site-wide */}
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-TDVLTM3QGR"></script>
-        <script dangerouslySetInnerHTML={{ __html: `window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-TDVLTM3QGR');` }} />
-        {/* Google AdSense loader (site-wide) */}
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6539140496743179" crossOrigin="anonymous"></script>
       </head>
       <body>
         <header className="site-header">
@@ -65,6 +62,8 @@ export default function RootLayout({
             )}
           </div>
         </footer>
+          <ConsentScriptLoader />
+          <CookieConsent />
       </body>
     </html>
   );
