@@ -255,11 +255,8 @@ export default async function SalaryPage({ params }: PageProps) {
         </section>
 
         {/* Ad Placeholder - Ready for ad integration */}
-        <aside className="ad-container">
-          <div className="ad-placeholder">
-            <p>Advertisement</p>
-          </div>
-        </aside>
+        {/* <aside className="ad-container">
+        </aside> */}
       </div>
     </>
   );

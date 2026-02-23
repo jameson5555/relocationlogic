@@ -92,11 +92,8 @@ export default function Home() {
       </section>
 
       {/* Ad Placeholder */}
-      <aside className="ad-container">
-        <div className="ad-placeholder">
-          <p>Advertisement</p>
-        </div>
-      </aside>
+      {/* <aside className="ad-container">
+      </aside> */}
 
       {/* Features */}
       <section className="features">
