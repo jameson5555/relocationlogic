@@ -45,6 +45,7 @@ export default function RootLayout({
                 <li><Link href="/cities">Cities</Link></li>
                 <li><Link href="/careers">Careers</Link></li>
                 <li><Link href="/about">About</Link></li>
+                <li><Link href="/guides">Guides</Link></li>
               </ul>
             </nav>
           </div>
@@ -53,7 +54,17 @@ export default function RootLayout({
         <footer className="site-footer">
           <div className="container">
             <p>&copy; 2024 RelocationLogic. All rights reserved.</p>
-            <p>Make informed career and relocation decisions with data-driven insights.</p>
+            <p className="mission">RelocationLogic helps professionals make clear, data-informed relocation decisions focused on career and cost-of-living tradeoffs.</p>
+            <nav className="footer-nav">
+              <ul>
+                <li><Link href="/about">About</Link></li>
+                <li><Link href="/methodology">Methodology</Link></li>
+                <li><Link href="/privacy-policy">Privacy</Link></li>
+                <li><Link href="/terms">Terms</Link></li>
+                <li><Link href="/contact">Contact</Link></li>
+                <li><Link href="/guides">Guides</Link></li>
+              </ul>
+            </nav>
             {lastUpdated && (
               <p className="data-updated">Data last updated: {lastUpdated}</p>
             )}
