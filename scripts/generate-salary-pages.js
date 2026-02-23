@@ -340,10 +340,47 @@ for (const city of cities) {
     </div>
   </main>
   <footer class="site-footer">
-    <div class="container">
-      <p>© 2024 RelocationLogic. All rights reserved.</p>
-      <p>Make informed career and relocation decisions with data-driven insights.</p>
-      ${lastUpdated ? `<p class="data-updated">Data last updated: ${lastUpdated}</p>` : ''}
+    <div class="container footer-grid">
+      <div class="footer-col footer-platform">
+        <h3>RelocationLogic</h3>
+        <p class="muted">Data-driven relocation &amp; career insights. Built from public datasets and industry sources.</p>
+        <p class="footer-mission">RelocationLogic helps professionals make clear, data-informed relocation decisions.</p>
+      </div>
+
+      <div class="footer-col footer-editorial">
+        <h4>Editorial</h4>
+        <ul>
+          <li><a href="/guides">Guides</a></li>
+          <li><a href="/guides/how-to-evaluate-a-relocation-offer">Evaluate an offer</a></li>
+          <li><a href="/guides/how-to-compare-cities-for-career-growth">Compare cities</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col footer-data">
+        <h4>Data</h4>
+        <ul>
+          <li><a href="/cities">Cities</a></li>
+          <li><a href="/careers">Careers</a></li>
+          <li><a href="/methodology">Methodology</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col footer-trust">
+        <h4>Trust &amp; Legal</h4>
+        <ul>
+          <li><a href="/about">About</a></li>
+          <li><a href="/privacy-policy">Privacy</a></li>
+          <li><a href="/terms">Terms</a></li>
+          <li><a href="/contact">Contact</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-bottom" aria-hidden>
+        <div>
+          ${lastUpdated ? `<p class="data-updated">Data last updated: ${lastUpdated}</p>` : ''}
+          <p>© 2024 RelocationLogic. All rights reserved.</p>
+        </div>
+      </div>
     </div>
   </footer>
 </body>
