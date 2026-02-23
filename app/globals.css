@@ -147,6 +147,62 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--muted-foreground);
 }
 
+/* Footer trust cluster */
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1fr 160px 160px 160px;
+  gap: 1.5rem;
+  align-items: start;
+}
+.footer-col h4 {
+  margin-bottom: 0.5rem;
+}
+.footer-col ul {
+  list-style: none;
+  padding: 0;
+}
+.footer-col li {
+  margin-bottom: 0.4rem;
+}
+.footer-platform .footer-mission {
+  margin-top: 0.5rem;
+  color: var(--muted-foreground);
+}
+.footer-bottom {
+  grid-column: 1 / -1;
+  margin-top: 1rem;
+  text-align: center;
+}
+
+/* Platform explainer */
+.platform-explainer {
+  background: var(--card-background);
+  border-bottom: 1px solid var(--border-color);
+  padding: 1rem 0;
+}
+.platform-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.platform-text p {
+  color: var(--muted-foreground);
+}
+.platform-actions .btn {
+  margin-left: 0.5rem;
+}
+
+@media (max-width: 880px) {
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .platform-inner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
 /* Page-specific paragraph spacing used by trust/guides pages */
 .page-body p {
   margin-bottom: 1rem;

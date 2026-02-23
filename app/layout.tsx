@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import CookieConsent from '@/components/CookieConsent';
 import ConsentScriptLoader from '@/components/ConsentScriptLoader';
+import PlatformExplainer from '@/components/PlatformExplainer';
 import { generateHomeMetadata } from "@/lib/metadata";
 import { formatLastUpdated, getSiteLastUpdated } from "@/lib/data";
 import Link from "next/link";
@@ -47,19 +48,52 @@ export default function RootLayout({
             </nav>
           </div>
         </header>
+        <PlatformExplainer />
         <main>{children}</main>
         <footer className="site-footer">
-          <div className="container">
-            <p>&copy; 2024 RelocationLogic. All rights reserved.</p>
-            <p className="mission">RelocationLogic helps professionals make clear, data-informed relocation decisions focused on career and cost-of-living tradeoffs.</p>
-            <nav className="footer-nav">
-              <p className="footer-links">
-                <Link href="/about">About</Link> &nbsp;|&nbsp; <Link href="/methodology">Methodology</Link> &nbsp;|&nbsp; <Link href="/privacy-policy">Privacy</Link> &nbsp;|&nbsp; <Link href="/terms">Terms</Link> &nbsp;|&nbsp; <Link href="/contact">Contact</Link> &nbsp;|&nbsp; <Link href="/guides">Guides</Link>
-              </p>
-            </nav>
-            {lastUpdated && (
-              <p className="data-updated">Data last updated: {lastUpdated}</p>
-            )}
+          <div className="container footer-grid">
+            <div className="footer-col footer-platform">
+              <h3>RelocationLogic</h3>
+              <p className="muted">Data-driven relocation & career insights. Built from public datasets and industry sources.</p>
+              <p className="footer-mission">RelocationLogic helps professionals make clear, data-informed relocation decisions.</p>
+            </div>
+
+            <div className="footer-col footer-editorial">
+              <h4>Editorial</h4>
+              <ul>
+                <li><Link href="/guides">Guides</Link></li>
+                <li><Link href="/guides/how-to-evaluate-a-relocation-offer">Evaluate an offer</Link></li>
+                <li><Link href="/guides/how-to-compare-cities-for-career-growth">Compare cities</Link></li>
+              </ul>
+            </div>
+
+            <div className="footer-col footer-data">
+              <h4>Data</h4>
+              <ul>
+                <li><Link href="/cities">Cities</Link></li>
+                <li><Link href="/careers">Careers</Link></li>
+                <li><Link href="/methodology">Methodology</Link></li>
+              </ul>
+            </div>
+
+            <div className="footer-col footer-trust">
+              <h4>Trust & Legal</h4>
+              <ul>
+                <li><Link href="/about">About</Link></li>
+                <li><Link href="/privacy-policy">Privacy</Link></li>
+                <li><Link href="/terms">Terms</Link></li>
+                <li><Link href="/contact">Contact</Link></li>
+              </ul>
+            </div>
+
+            <div className="footer-bottom" aria-hidden>
+              <div>
+                {lastUpdated && (
+                  <p className="data-updated">Data last updated: {lastUpdated}</p>
+                )}
+                <p>© 2024 RelocationLogic. All rights reserved.</p>
+              </div>
+            </div>
           </div>
         </footer>
           <ConsentScriptLoader />

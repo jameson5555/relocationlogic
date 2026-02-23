@@ -10,6 +10,7 @@ import { City, Career, SalaryData } from '@/types';
 import { calculateAdjustedSalary, calculateCostOfLiving } from '@/utils/costOfLiving';
 import { calculateTax } from '@/utils/taxCalculator';
 import { generatePageMetadata, generateStructuredData } from '@/lib/metadata';
+import Link from 'next/link';
 import SalaryOverview from '@/components/SalaryOverview';
 import TaxBreakdown from '@/components/TaxBreakdown';
 import ColAnalysis from '@/components/ColAnalysis';
@@ -252,6 +253,13 @@ export default async function SalaryPage({ params }: PageProps) {
             <li>If the move reduces purchasing power, ask the employer for targeted adjustments (relocation support, higher base, or sign-on).</li>
             <li>Use the sample size indicator (approx. {salaryData.sampleSize} data points) as a confidence cue: larger samples imply more stable medians.</li>
           </ol>
+
+          <h3>Further reading</h3>
+          <ul>
+            <li><Link href="/guides/how-to-evaluate-a-relocation-offer">How to evaluate a relocation offer</Link></li>
+            <li><Link href="/guides/hidden-costs-of-moving-cities">Hidden costs of moving cities</Link></li>
+            <li><Link href="/guides/how-to-compare-cities-for-career-growth">Compare cities for career growth</Link></li>
+          </ul>
         </section>
 
         {/* Ad Placeholder - Ready for ad integration */}
