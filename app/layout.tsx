@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import "./globals.css";
 import CookieConsent from '@/components/CookieConsent';
 import ConsentScriptLoader from '@/components/ConsentScriptLoader';
-import PlatformExplainer from '@/components/PlatformExplainer';
 import { generateHomeMetadata } from "@/lib/metadata";
 import { formatLastUpdated, getSiteLastUpdated } from "@/lib/data";
 import Link from "next/link";
@@ -48,7 +47,6 @@ export default function RootLayout({
             </nav>
           </div>
         </header>
-        <PlatformExplainer />
         <main>{children}</main>
         <footer className="site-footer">
           <div className="container footer-grid">

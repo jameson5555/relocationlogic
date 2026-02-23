@@ -253,19 +253,6 @@ for (const city of cities) {
       </nav>
     </div>
   </header>
-  <!-- Platform explainer (static export parity with app layout) -->
-  <div class="platform-explainer container">
-    <div class="platform-inner">
-      <div class="platform-text">
-        <h2>About RelocationLogic</h2>
-        <p>RelocationLogic combines public datasets and industry salary surveys to provide clear, localised salary estimates and cost-of-living comparisons.</p>
-      </div>
-      <div class="platform-actions">
-        <a href="/about" class="btn">About the platform</a>
-        <a href="/methodology" class="btn btn-ghost">Methodology</a>
-      </div>
-    </div>
-  </div>
   <main>
     <script type="application/ld+json">${structuredData}</script>
     <div class="container">
