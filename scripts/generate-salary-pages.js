@@ -399,7 +399,7 @@ for (const city of cities) {
       <div class="footer-bottom" aria-hidden>
         <div>
           ${lastUpdated ? `<p class="data-updated">Data last updated: ${lastUpdated}</p>` : ''}
-          <p>© 2024 RelocationLogic. All rights reserved.</p>
+          <p>© 2026 RelocationLogic. All rights reserved.</p>
         </div>
       </div>
     </div>

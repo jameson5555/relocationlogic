@@ -89,7 +89,7 @@ export default function RootLayout({
                 {lastUpdated && (
                   <p className="data-updated">Data last updated: {lastUpdated}</p>
                 )}
-                <p>© 2024 RelocationLogic. All rights reserved.</p>
+                <p>© 2026 RelocationLogic. All rights reserved.</p>
               </div>
             </div>
           </div>
