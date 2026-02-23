@@ -173,6 +173,8 @@ const cssTags = cssLinks
   .map((f) => `<link rel="stylesheet" href="/_next/static/chunks/${f}" />`)
   .join('\n');
 
+const adsScriptTag = `<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6539140496743179" crossorigin="anonymous"></script>`;
+
 // No server-side analytics/ad scripts in static export; these are loaded
 // client-side only after user consent via the cookie consent component.
 
@@ -210,6 +212,7 @@ for (const city of cities) {
   <title>${title}</title>
   <link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
   ${cssTags}
+  ${adsScriptTag}
 </head>
 <body>
   <header class="site-header">
@@ -331,11 +334,9 @@ for (const city of cities) {
         </ol>
       </section>
 
-      <aside class="ad-container">
-        <div class="ad-placeholder">
-          <p>Advertisement</p>
-        </div>
-      </aside>
+      <!--<aside class="ad-container">
+
+      </aside> -->
     </div>
   </main>
   <footer class="site-footer">

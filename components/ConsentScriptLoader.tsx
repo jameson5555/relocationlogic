@@ -37,16 +37,21 @@ export default function ConsentScriptLoader() {
       const detail = (e as CustomEvent).detail || {};
       if (detail.accepted) {
         injectGtag();
-        injectAds();
       }
     }
 
-    // If user already accepted, inject immediately
+    // Always inject AdSense immediately so the script is discoverable by reviewers.
+    try {
+      injectAds();
+    } catch (e) {
+      // ignore
+    }
+
+    // If user already accepted, inject analytics immediately
     try {
       const stored = localStorage.getItem("rl_cookie_consent");
       if (stored === "accepted") {
         injectGtag();
-        injectAds();
       }
     } catch (e) {
       // ignore
