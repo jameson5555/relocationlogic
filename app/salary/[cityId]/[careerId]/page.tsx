@@ -221,32 +221,35 @@ export default async function SalaryPage({ params }: PageProps) {
           </div>
         </section>
 
-        {/* Human-friendly interpretation sections */}
+        {/* Human-friendly interpretation sections (rendered server-side for indexing) */}
         <section className="human-interpretation">
           <h2>What this data means in real life</h2>
           <p>
-            The salary figures show typical base pay for a {career.title} in {city.name} based on national career medians adjusted for local cost-of-living. Use these numbers to set expectations for offers, plan budgets, and compare purchasing power across locations.
+            The figures on this page estimate a typical base salary for a <strong>{career.title}</strong> in <strong>{city.name}</strong>. The number ({formatCurrency(salaryData.salary)}) represents a median-style estimate adjusted for local cost-of-living and common career-level differences. Use it as a data-informed starting point when comparing offers or planning a move.
           </p>
 
           <h3>What this data does not capture</h3>
           <p>
-            These estimates do not reflect individual negotiation, bonus structures, equity, contractor rates, or specific company pay bands. They do not replace employer-provided offer letters or total compensation calculations including benefits like health insurance, commuting subsidies, or childcare.
+            These estimates exclude company-specific pay bands, negotiated sign-on bonuses, equity grants, non-salary benefits, and irregular contract premiums. They also do not reflect personal circumstances such as household size, childcare needs, or medical expenses.
           </p>
 
           <h3>Who this is best for</h3>
           <p>
-            Professionals evaluating regional offers, hiring managers benchmarking budgets, and remote workers deciding whether to relocate will find these figures useful. The data is strongest for common occupations with widespread reporting.
+            This data is most useful for mid-career professionals and hiring teams who need a quick, comparable view of salary and purchasing power across metros. It is strongest for occupations with broad reporting and many local hires.
           </p>
 
-          <h3>Who should avoid using these numbers alone</h3>
+          <h3>Who should avoid this move</h3>
           <p>
-            Job seekers in niche specialties, very senior leadership roles, or those with unique compensation structures should not rely solely on these medians — consult company-specific data, recruiters, or offer documents.
+            If accepting the posted salary would reduce your adjusted purchasing power versus your current location—for example, if your current salary is higher than {formatCurrency(career.medianSalary)} or your family has high fixed costs—this move may not be suitable without additional compensation. Similarly, candidates with specialized compensation (equity, commission-heavy roles, or contractor rates) should not rely solely on these medians.
           </p>
 
-          <h3>Plain-language explanation</h3>
-          <p>
-            Think of the salary shown as a typical starting point you might expect in normal hiring markets for this role and city. If the cost of living is higher, the salary is adjusted upward to reflect that difference; lower-cost areas will show smaller adjustments.
-          </p>
+          <h3>How to use this data in decisions</h3>
+          <ol>
+            <li>Compare the adjusted salary ({formatCurrency(salaryData.salary)}) with your current take-home and benefits.</li>
+            <li>Check local costs on this page—housing, taxes, and typical living expenses—and add one-time moving costs.</li>
+            <li>If the move reduces purchasing power, ask the employer for targeted adjustments (relocation support, higher base, or sign-on).</li>
+            <li>Use the sample size indicator (approx. {salaryData.sampleSize} data points) as a confidence cue: larger samples imply more stable medians.</li>
+          </ol>
         </section>
 
         {/* Ad Placeholder - Ready for ad integration */}
