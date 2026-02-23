@@ -203,6 +203,17 @@ for (const city of cities) {
       };
       const taxCalc = calculateTax(salary, city.stateTaxRate, city.localTaxRate);
       const colCalc = calculateCostOfLiving(salary, city.costOfLivingIndex, city.averageRent);
+      const structuredData = JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        name: title,
+        description: career.description,
+        mainEntity: {
+          "@type": "Dataset",
+          name: `${career.title} salary in ${city.name}`,
+          value: salary
+        }
+      });
 
       const body = `<!doctype html>
 <html lang="en">
@@ -237,11 +248,26 @@ for (const city of cities) {
           <li><a href="/cities">Cities</a></li>
           <li><a href="/careers">Careers</a></li>
           <li><a href="/about">About</a></li>
+          <li><a href="/guides">Guides</a></li>
         </ul>
       </nav>
     </div>
   </header>
+  <!-- Platform explainer (static export parity with app layout) -->
+  <div class="platform-explainer container">
+    <div class="platform-inner">
+      <div class="platform-text">
+        <h2>About RelocationLogic</h2>
+        <p>RelocationLogic combines public datasets and industry salary surveys to provide clear, localised salary estimates and cost-of-living comparisons.</p>
+      </div>
+      <div class="platform-actions">
+        <a href="/about" class="btn">About the platform</a>
+        <a href="/methodology" class="btn btn-ghost">Methodology</a>
+      </div>
+    </div>
+  </div>
   <main>
+    <script type="application/ld+json">${structuredData}</script>
     <div class="container">
       <header class="page-header">
         <h1>${title}</h1>
