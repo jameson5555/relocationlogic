@@ -331,7 +331,15 @@ for (const city of cities) {
       </section>
 
       <section class="human-interpretation page-body">
-        <h2>What this data means in real life</h2>
+        <div class="hi-header">
+          <span class="hi-icon" aria-hidden>
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+              <path d="M9.5 19.5h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M12 2.75a5 5 0 00-3.5 8.5c.2.18.36.37.5.56V13a2 2 0 002 2h2a2 2 0 002-2v-1.19c.14-.19.3-.38.5-.56A5 5 0 0012 2.75z" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+          <h2>What this data means in real life</h2>
+        </div>
         <p>
           The figures on this page estimate a typical base salary for a <strong>${career.title}</strong> in <strong>${city.name}</strong>. The number (${formatCurrency(salaryData.salary)}) represents a median-style estimate adjusted for local cost-of-living and common career-level differences. Use it as a data-informed starting point when comparing offers or planning a move.
         </p>
