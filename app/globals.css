@@ -601,8 +601,9 @@ h1, h2, h3, h4, h5, h6 {
 /* Human interpretation styling */
 .human-interpretation {
   display: block;
-  background: linear-gradient(90deg, rgba(99,181,74,0.06), rgba(99,181,74,0.03));
-  border: 1px solid rgba(99,181,74,0.12);
+  /* Brighter green tint similar to Net Annual Salary row */
+  background: rgba(16,185,129,0.08);
+  border: 1px solid rgba(16,185,129,0.14);
   padding: 1.25rem 1.25rem;
   border-radius: 8px;
   margin-bottom: 3rem;
