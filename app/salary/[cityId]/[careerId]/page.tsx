@@ -220,6 +220,8 @@ export default async function SalaryPage({ params }: PageProps) {
             </div>
           </div>
         </section>
+        
+        
 
         {/* Human-friendly interpretation sections (rendered server-side for indexing) */}
         <section className="human-interpretation">
