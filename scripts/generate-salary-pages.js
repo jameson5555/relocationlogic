@@ -301,7 +301,7 @@ for (const city of cities) {
         </div>
       </section>
 
-      <section class="human-interpretation">
+      <section class="human-interpretation page-body">
         <h2>What this data means in real life</h2>
         <p>
           The figures on this page estimate a typical base salary for a <strong>${career.title}</strong> in <strong>${city.name}</strong>. The number (${formatCurrency(salaryData.salary)}) represents a median-style estimate adjusted for local cost-of-living and common career-level differences. Use it as a data-informed starting point when comparing offers or planning a move.
