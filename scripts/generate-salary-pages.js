@@ -173,7 +173,8 @@ const cssTags = cssLinks
   .map((f) => `<link rel="stylesheet" href="/_next/static/chunks/${f}" />`)
   .join('\n');
 
-const gtagHead = `<!-- Google tag (gtag.js) -->\n<script async src="https://www.googletagmanager.com/gtag/js?id=G-TDVLTM3QGR"></script>\n<script>window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-TDVLTM3QGR');</script>`;
+// No server-side analytics/ad scripts in static export; these are loaded
+// client-side only after user consent via the cookie consent component.
 
 let created = 0;
 
@@ -208,8 +209,7 @@ for (const city of cities) {
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>${title}</title>
   <link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
-      ${cssTags}
-      ${gtagHead}
+  ${cssTags}
 </head>
 <body>
   <header class="site-header">
@@ -332,8 +332,6 @@ for (const city of cities) {
       </section>
 
       <aside class="ad-container">
-        <!-- Google AdSense loader for this ad slot -->
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6539140496743179" crossorigin="anonymous"></script>
         <div class="ad-placeholder">
           <p>Advertisement</p>
         </div>
