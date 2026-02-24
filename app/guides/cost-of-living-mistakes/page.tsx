@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import EditorialAttribution from '@/components/EditorialAttribution';
+import GuideStructuredData from '@/components/GuideStructuredData';
 
 export const metadata: Metadata = {
   title: 'Cost-of-living mistakes — RelocationLogic',
@@ -9,30 +10,38 @@ export const metadata: Metadata = {
 
 export default function ColMistakesGuide() {
   return (
-    <div className="container">
-      <header className="page-header">
-        <h1>Cost-of-living mistakes</h1>
-        <p className="lead">How to avoid common pitfalls when comparing locations.</p>
-      </header>
+    <>
+      <GuideStructuredData
+        headline="Cost-of-living mistakes"
+        description="Common mistakes people make when using cost-of-living data and how to avoid them."
+        path="/guides/cost-of-living-mistakes"
+        dateModified="2026-02-24"
+      />
+      <div className="container">
+        <header className="page-header">
+          <h1>Cost-of-living mistakes</h1>
+          <p className="lead">How to avoid common pitfalls when comparing locations.</p>
+        </header>
 
-      <div className="page-body">
-        <section>
-          <h2>Mistake: Comparing headline salaries without context</h2>
-          <p>Headline numbers can be misleading. Always compare purchasing power using local housing, taxes, and living costs available on our <Link href="/cities">city pages</Link>.</p>
-        </section>
+        <div className="page-body">
+          <section>
+            <h2>Mistake: Comparing headline salaries without context</h2>
+            <p>Headline numbers can be misleading. Always compare purchasing power using local housing, taxes, and living costs available on our <Link href="/cities">city pages</Link>.</p>
+          </section>
 
-        <section>
-          <h2>Mistake: Ignoring benefits and taxes</h2>
-          <p>Health insurance premiums, employer retirement matches, and tax differentials are material — include them when evaluating offers.</p>
-        </section>
+          <section>
+            <h2>Mistake: Ignoring benefits and taxes</h2>
+            <p>Health insurance premiums, employer retirement matches, and tax differentials are material — include them when evaluating offers.</p>
+          </section>
 
-        <section>
-          <h2>Mistake: Assuming averages fit everyone</h2>
-          <p>Averages hide distribution and variability. Consider your role’s seniority, local demand, and whether you’ll be paid near the median.</p>
-        </section>
+          <section>
+            <h2>Mistake: Assuming averages fit everyone</h2>
+            <p>Averages hide distribution and variability. Consider your role’s seniority, local demand, and whether you’ll be paid near the median.</p>
+          </section>
 
-        <EditorialAttribution reviewedDate="February 24, 2026" />
+          <EditorialAttribution reviewedDate="February 24, 2026" />
+        </div>
       </div>
-    </div>
+    </>
   );
 }
