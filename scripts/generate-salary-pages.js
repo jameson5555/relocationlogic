@@ -131,15 +131,6 @@ function getSiteLastUpdated(meta) {
   return latest.toISOString();
 }
 
-function deterministicSampleSize(key) {
-  let hash = 5381;
-  for (let i = 0; i < key.length; i++) {
-    hash = (hash * 33) ^ key.charCodeAt(i);
-  }
-  const unsigned = hash >>> 0;
-  return 100 + (unsigned % 500);
-}
-
 if (!fs.existsSync(outDir)) {
   console.error('out/ directory not found — run the export first (npm run export)');
   process.exit(1);
@@ -199,7 +190,6 @@ for (const city of cities) {
         percentile25: Math.round(salary * 0.75),
         percentile50: salary,
         percentile75: Math.round(salary * 1.3),
-        sampleSize: deterministicSampleSize(`${city.id}:${career.id}`),
       };
       const taxCalc = calculateTax(salary, city.stateTaxRate, city.localTaxRate);
       const colCalc = calculateCostOfLiving(salary, city.costOfLivingIndex, city.averageRent);
@@ -267,7 +257,6 @@ for (const city of cities) {
           <div class="stat-card"><div class="stat-label">Median Salary</div><div class="stat-value">${formatCurrency(salaryData.salary)}</div></div>
           <div class="stat-card"><div class="stat-label">25th Percentile</div><div class="stat-value">${formatCurrency(salaryData.percentile25)}</div></div>
           <div class="stat-card"><div class="stat-label">75th Percentile</div><div class="stat-value">${formatCurrency(salaryData.percentile75)}</div></div>
-          <div class="stat-card"><div class="stat-label">Sample Size</div><div class="stat-value">${salaryData.sampleSize.toLocaleString()}</div></div>
         </div>
       </section>
 
@@ -351,7 +340,7 @@ for (const city of cities) {
           <li>Compare the adjusted salary (${formatCurrency(salaryData.salary)}) with your current take-home and benefits.</li>
           <li>Check local costs on this page—housing, taxes, and typical living expenses—and add one-time moving costs.</li>
           <li>If the move reduces purchasing power, ask the employer for targeted adjustments (relocation support, higher base, or sign-on).</li>
-          <li>Use the sample size indicator (approx. ${salaryData.sampleSize.toLocaleString()} data points) as a confidence cue: larger samples imply more stable medians.</li>
+          <li>Use this page as an initial benchmark, then validate current market demand and compensation bands with recent local job postings.</li>
         </ol>
       </section>
 

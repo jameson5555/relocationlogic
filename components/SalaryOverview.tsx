@@ -24,10 +24,6 @@ export default function SalaryOverview({ salaryData }: Props) {
           <div className="stat-label">75th Percentile</div>
           <div className="stat-value">{formatCurrency(salaryData.percentile75)}</div>
         </div>
-        <div className="stat-card">
-          <div className="stat-label">Sample Size</div>
-          <div className="stat-value">{salaryData.sampleSize.toLocaleString()}</div>
-        </div>
       </div>
     </section>
   );

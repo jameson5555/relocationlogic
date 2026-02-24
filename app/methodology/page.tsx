@@ -25,7 +25,7 @@ export default function MethodologyPage() {
         <section>
           <h2>Update frequency</h2>
           <p>
-            The site aims for quarterly data updates. Core salary and cost-of-living inputs are refreshed at least every 3 months, and critical corrections are applied as reported.
+            Core salary and cost-of-living inputs are refreshed monthly, and critical corrections are applied as reported.
           </p>
         </section>
 

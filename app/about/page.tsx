@@ -55,7 +55,7 @@ export default function AboutPage() {
 
           <h2>Keeping Data Fresh</h2>
           <p>
-            Data is updated monthly. The most recent dataset refresh is:
+            Core datasets are refreshed monthly, with critical corrections applied sooner when needed. The most recent dataset refresh is:
             {lastUpdated ? ` ${lastUpdated}` : ' not available'}.
           </p>
         </div>

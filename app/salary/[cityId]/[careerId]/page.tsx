@@ -83,16 +83,7 @@ function getSalaryDataLocal(cityId: string, careerId: string): SalaryData | null
     percentile25: Math.round(adjustedSalary * 0.75),
     percentile50: adjustedSalary,
     percentile75: Math.round(adjustedSalary * 1.3),
-    sampleSize: 100 + (Math.abs(hashString(`${cityId}:${careerId}`)) % 500),
   };
-}
-
-function hashString(value: string): number {
-  let hash = 5381;
-  for (let i = 0; i < value.length; i++) {
-    hash = (hash * 33) ^ value.charCodeAt(i);
-  }
-  return hash >>> 0;
 }
 
 // Generate static params for all city-career combinations
@@ -251,7 +242,7 @@ export default async function SalaryPage({ params }: PageProps) {
             <li>Compare the adjusted salary ({formatCurrency(salaryData.salary)}) with your current take-home and benefits.</li>
             <li>Check local costs on this page—housing, taxes, and typical living expenses—and add one-time moving costs.</li>
             <li>If the move reduces purchasing power, ask the employer for targeted adjustments (relocation support, higher base, or sign-on).</li>
-            <li>Use the sample size indicator (approx. {salaryData.sampleSize} data points) as a confidence cue: larger samples imply more stable medians.</li>
+            <li>Use this page as an initial benchmark, then validate current market demand and compensation bands with recent local job postings.</li>
           </ol>
 
           <h3>Further reading</h3>
