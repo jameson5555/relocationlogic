@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
+import EditorialAttribution from '@/components/EditorialAttribution';
 
 export const metadata: Metadata = {
   title: 'Hidden costs of moving cities — RelocationLogic',
@@ -34,6 +35,8 @@ export default function HiddenCostsGuide() {
           <h2>Taxes and benefits differences</h2>
           <p>State income taxes, local taxes, and employer benefits vary. Use our methodology page to understand tax inputs and see city tax notes on each <Link href="/cities">city page</Link>.</p>
         </section>
+
+        <EditorialAttribution reviewedDate="February 24, 2026" />
       </div>
     </div>
   );

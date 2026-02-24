@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
+import EditorialAttribution from '@/components/EditorialAttribution';
 
 export const metadata: Metadata = {
   title: 'How to compare cities for career growth — RelocationLogic',
@@ -29,6 +30,8 @@ export default function CompareCitiesGuide() {
           <h2>Network and mentorship</h2>
           <p>Consider where mentors, conferences, and industry meetups occur — geographic proximity can accelerate promotions and learning.</p>
         </section>
+
+        <EditorialAttribution reviewedDate="February 24, 2026" />
       </div>
     </div>
   );

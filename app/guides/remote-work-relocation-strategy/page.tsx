@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
+import EditorialAttribution from '@/components/EditorialAttribution';
 
 export const metadata: Metadata = {
   title: 'Remote work relocation strategy — RelocationLogic',
@@ -24,6 +25,8 @@ export default function RemoteWorkGuide() {
           <h2>Quality-of-life vs. career proximity</h2>
           <p>Weigh lifestyle improvements against being near hiring markets and mentorship opportunities. See city indicators on our <Link href="/cities">city pages</Link>.</p>
         </section>
+
+        <EditorialAttribution reviewedDate="February 24, 2026" />
       </div>
     </div>
   );

@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
+import EditorialAttribution from '@/components/EditorialAttribution';
 
 export const metadata: Metadata = {
   title: 'How to evaluate a relocation offer — RelocationLogic',
@@ -39,6 +40,8 @@ export default function GuideEvaluateOffer() {
           <h2>5. Negotiate with data</h2>
           <p>Present researched salary ranges, relocation support, and target start dates. Cite credible sources or our <Link href="/methodology">methodology</Link> when appropriate.</p>
         </section>
+
+        <EditorialAttribution reviewedDate="February 24, 2026" />
       </div>
     </div>
   );

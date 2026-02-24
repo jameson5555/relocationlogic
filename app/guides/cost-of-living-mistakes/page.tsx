@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
+import EditorialAttribution from '@/components/EditorialAttribution';
 
 export const metadata: Metadata = {
   title: 'Cost-of-living mistakes — RelocationLogic',
@@ -29,6 +30,8 @@ export default function ColMistakesGuide() {
           <h2>Mistake: Assuming averages fit everyone</h2>
           <p>Averages hide distribution and variability. Consider your role’s seniority, local demand, and whether you’ll be paid near the median.</p>
         </section>
+
+        <EditorialAttribution reviewedDate="February 24, 2026" />
       </div>
     </div>
   );

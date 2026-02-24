@@ -202,6 +202,22 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--muted-foreground);
 }
 
+.editorial-attribution {
+  margin-top: 2rem;
+  padding: 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background: var(--card-background);
+}
+
+.editorial-attribution h2 {
+  font-size: 1.1rem;
+}
+
+.not-found ul {
+  margin-top: 0.5rem;
+}
+
 /* Home Page */
 .home-page {
   padding: 2rem 0;
