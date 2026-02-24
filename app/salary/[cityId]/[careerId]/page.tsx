@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 import {
   formatCurrency,
   formatPercentage,
@@ -129,16 +130,7 @@ export default async function SalaryPage({ params }: PageProps) {
   const salaryData = getSalaryDataLocal(cityId, careerId);
 
   if (!city || !career || !salaryData) {
-    return (
-      <div className="container">
-        <header className="page-header">
-          <h1>Salary data unavailable</h1>
-          <p className="lead">
-            We couldn&apos;t find data for this city and career combination.
-          </p>
-        </header>
-      </div>
-    );
+    notFound();
   }
 
   // Calculate tax breakdown

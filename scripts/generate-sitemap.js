@@ -55,8 +55,30 @@ function buildSitemap() {
   const salaryLastmod = salaryLastUpdated ? salaryLastUpdated.toISOString() : defaultLastmod;
 
   const urls = [];
-  // homepage
-  urls.push({ loc: `${baseUrl}/`, lastmod: homeLastmod, priority: '1.0', changefreq: 'daily' });
+  const staticPages = [
+    '/',
+    '/about/',
+    '/careers/',
+    '/cities/',
+    '/contact/',
+    '/guides/',
+    '/methodology/',
+    '/privacy-policy/',
+    '/terms/',
+    '/guides/how-to-evaluate-a-relocation-offer/',
+    '/guides/how-to-compare-cities-for-career-growth/',
+    '/guides/hidden-costs-of-moving-cities/',
+    '/guides/cost-of-living-mistakes/',
+    '/guides/remote-work-relocation-strategy/',
+  ];
+  staticPages.forEach((route) => {
+    urls.push({
+      loc: `${baseUrl}${route}`,
+      lastmod: homeLastmod,
+      priority: route === '/' ? '1.0' : '0.7',
+      changefreq: route === '/' ? 'daily' : 'weekly',
+    });
+  });
 
   cityList.forEach((city) => {
     careerList.forEach((career) => {

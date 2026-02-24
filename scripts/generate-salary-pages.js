@@ -175,8 +175,8 @@ const cssTags = cssLinks
 
 const adsScriptTag = `<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6539140496743179" crossorigin="anonymous"></script>`;
 
-// No server-side analytics/ad scripts in static export; these are loaded
-// client-side only after user consent via the cookie consent component.
+// Keep analytics client-side and consent-gated.
+// AdSense script is included in exported HTML so ads can be served on static pages.
 
 let created = 0;
 

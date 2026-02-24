@@ -25,7 +25,7 @@ export default function PrivacyPolicy() {
         <section>
           <h2>Google AdSense disclosure</h2>
           <p>
-            We display advertisements provided by Google AdSense. These ads may be personalized based on your activity across websites and apps. We do not share personally-identifiable information with advertisers; personalization is enabled only if you accept cookies via our cookie consent banner.
+            We display advertisements provided by Google AdSense. Ad requests may be loaded to serve ads and measure delivery. Personalized advertising is enabled only if you accept cookies via our cookie consent banner.
           </p>
           <p>
             To manage ad personalization from Google, visit <a href="https://adssettings.google.com/">Google Ad Settings</a>.
@@ -48,7 +48,7 @@ export default function PrivacyPolicy() {
             We use cookies for four primary purposes: (1) essential site functionality (session cookies), (2) user preference persistence (for example theme or language choices), (3) analytics (to understand site usage and performance), and (4) advertising personalization (only if you accept cookies).
           </p>
           <p>
-            Our cookie consent banner allows you to accept or dismiss optional cookies. If you dismiss, analytics and ad personalization scripts will not be loaded. You can clear cookies from your browser at any time; doing so will reset consent.
+            Our cookie consent banner allows you to accept or dismiss optional cookies. If you dismiss, analytics remains off and ads are served in a non-personalized/contextual mode where available. You can clear cookies from your browser at any time; doing so will reset consent.
           </p>
         </section>
 
