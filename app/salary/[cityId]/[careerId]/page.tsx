@@ -17,11 +17,11 @@ import TaxBreakdown from '@/components/TaxBreakdown';
 import ColAnalysis from '@/components/ColAnalysis';
 
 interface PageProps {
-  params: {
+  params: Promise<{
     cityId?: string;
     careerId?: string;
     slug?: string[];
-  };
+  }>;
 }
 
 const cities = (Array.isArray(citiesData)
@@ -52,7 +52,9 @@ function getCareerByIdLocal(id: string): Career | undefined {
   return careerById.get(normalizeId(id));
 }
 
-function getParamIds(params: PageProps['params']) {
+type ResolvedParams = Awaited<PageProps['params']>;
+
+function getParamIds(params: ResolvedParams) {
   const slug = params.slug || [];
   return {
     cityId: params.cityId ?? slug[0] ?? '',
@@ -98,7 +100,7 @@ export async function generateStaticParams() {
 
 // Generate metadata for SEO
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const { cityId, careerId } = getParamIds(params);
+  const { cityId, careerId } = getParamIds(await params);
   const city = getCityByIdLocal(cityId);
   const career = getCareerByIdLocal(careerId);
   const salaryData = getSalaryDataLocal(cityId, careerId);
@@ -115,7 +117,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 // Main page component
 export default async function SalaryPage({ params }: PageProps) {
-  const { cityId, careerId } = getParamIds(params);
+  const { cityId, careerId } = getParamIds(await params);
   const city = getCityByIdLocal(cityId);
   const career = getCareerByIdLocal(careerId);
   const salaryData = getSalaryDataLocal(cityId, careerId);
