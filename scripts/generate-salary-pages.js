@@ -205,12 +205,36 @@ for (const city of cities) {
         }
       });
 
+      const siteUrl = 'https://relocationlogic.com';
+      const canonicalUrl = `${siteUrl}/salary/${city.id}/${career.id}`;
+      const description = `Explore ${career.title} salaries in ${city.name}, ${city.state}. Get detailed tax calculations, cost of living analysis, and relocation insights. Average salary: ${formatCurrency(salary)}.`;
+      const keywords = [
+        `${career.title} salary`,
+        `${city.name} ${career.title}`,
+        `${career.title} ${city.state}`,
+        `cost of living ${city.name}`,
+        `${city.name} taxes`,
+        career.category.toLowerCase(),
+      ].join(', ');
+
       const body = `<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>${title}</title>
+  <meta name="description" content="${description}"/>
+  <meta name="keywords" content="${keywords}"/>
+  <meta name="robots" content="index, follow"/>
+  <link rel="canonical" href="${canonicalUrl}"/>
+  <meta property="og:title" content="${title}"/>
+  <meta property="og:description" content="${description}"/>
+  <meta property="og:url" content="${canonicalUrl}"/>
+  <meta property="og:site_name" content="RelocationLogic"/>
+  <meta property="og:type" content="article"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="${title}"/>
+  <meta name="twitter:description" content="${description}"/>
   <link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
   ${cssTags}
   ${adsScriptTag}
