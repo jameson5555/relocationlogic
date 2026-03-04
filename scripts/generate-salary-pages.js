@@ -165,9 +165,15 @@ const cssTags = cssLinks
   .join('\n');
 
 const adsScriptTag = `<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6539140496743179" crossorigin="anonymous"></script>`;
-
-// Keep analytics client-side and consent-gated.
-// AdSense script is included in exported HTML so ads can be served on static pages.
+const gaScriptTags = `
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-TDVLTM3QGR"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){window.dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-TDVLTM3QGR');
+  </script>
+`;
 
 let created = 0;
 
@@ -238,6 +244,7 @@ for (const city of cities) {
   <link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
   ${cssTags}
   ${adsScriptTag}
+  ${gaScriptTags}
 </head>
 <body>
   <header class="site-header">
