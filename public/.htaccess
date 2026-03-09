@@ -28,6 +28,15 @@ Options -Indexes
   RewriteCond %{REQUEST_URI} ^(.+\.html)/__next\._tree\.txt$
   RewriteRule ^ %1 [L]
 
+  # 3. Strip query strings from favicon requests (Next.js cache-busting)
+  RewriteCond %{QUERY_STRING} .
+  RewriteRule ^favicon\.ico$ /favicon.ico? [R=301,L]
+
+  # 4. Force trailing slash on directory URLs (e.g. /salary/city/career → /salary/city/career/)
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteCond %{REQUEST_URI} !/$
+  RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1/ [R=301,L]
+
   # If the request maps to a real file or directory, serve it.
   RewriteCond %{REQUEST_FILENAME} -f [OR]
   RewriteCond %{REQUEST_FILENAME} -d
