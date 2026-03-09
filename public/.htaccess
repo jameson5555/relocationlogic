@@ -5,6 +5,15 @@ Options -Indexes
   RewriteEngine On
   RewriteBase /
 
+  # ── Canonical domain: force https://relocationlogic.com ──
+  # 1. Redirect www to non-www (any protocol)
+  RewriteCond %{HTTP_HOST} ^www\.relocationlogic\.com$ [NC]
+  RewriteRule ^(.*)$ https://relocationlogic.com/$1 [R=301,L]
+
+  # 2. Redirect HTTP to HTTPS
+  RewriteCond %{HTTPS} !=on
+  RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+
   # If a request ends with .html, redirect to the canonical trailing-slash path.
   # This ensures client navigation uses directory-style URLs (served from index.html)
   # and avoids client attempts to fetch `*.html/__next._tree.txt` which don't exist

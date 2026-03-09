@@ -212,7 +212,7 @@ for (const city of cities) {
       });
 
       const siteUrl = 'https://relocationlogic.com';
-      const canonicalUrl = `${siteUrl}/salary/${city.id}/${career.id}`;
+      const canonicalUrl = `${siteUrl}/salary/${city.id}/${career.id}/`;
       const description = `Explore ${career.title} salaries in ${city.name}, ${city.state}. Get detailed tax calculations, cost of living analysis, and relocation insights. Average salary: ${formatCurrency(salary)}.`;
       const keywords = [
         `${career.title} salary`,

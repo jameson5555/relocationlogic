@@ -88,7 +88,7 @@ export function generatePageMetadata(
     openGraph: {
       title,
       description,
-      url: `${siteConfig.url}/salary/${city.id}/${career.id}`,
+      url: `${siteConfig.url}/salary/${city.id}/${career.id}/`,
       siteName: siteConfig.name,
       images: [
         {
@@ -108,7 +108,7 @@ export function generatePageMetadata(
       images: [siteConfig.ogImage],
     },
     alternates: {
-      canonical: `${siteConfig.url}/salary/${city.id}/${career.id}`,
+      canonical: `${siteConfig.url}/salary/${city.id}/${career.id}/`,
     },
     other: lastUpdated ? { 'data-last-updated': lastUpdated } : undefined,
   };
@@ -143,7 +143,7 @@ export function generateStructuredData(
     },
     mainEntityOfPage: {
       '@type': 'WebPage',
-      '@id': `${siteConfig.url}/salary/${city.id}/${career.id}`,
+      '@id': `${siteConfig.url}/salary/${city.id}/${career.id}/`,
     },
     about: {
       '@type': 'Occupation',
