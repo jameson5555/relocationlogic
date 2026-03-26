@@ -8,6 +8,8 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    env:
+      NEXT_PUBLIC_SITE_URL: https://relocationlogic.com
 
     steps:
       - name: Checkout
@@ -27,10 +29,16 @@ jobs:
       - name: Generate salary pages (postexport)
         run: npm run postexport
 
+      - name: Restore static hosting rules
+        run: cp public/.htaccess out/.htaccess
+
       - name: Verify salary page content
         run: |
           test -f out/salary/new-york-ny/software-engineer/index.html
           grep -q "Salary Overview" out/salary/new-york-ny/software-engineer/index.html
+
+      - name: Verify hosting rules exist
+        run: test -f out/.htaccess
 
       - name: Verify export folder exists
         run: ls -la out || (echo "out/ not found" && exit 1)
