@@ -26,10 +26,13 @@ export function generateHomeMetadata(): Metadata {
       'tax calculator',
       'city comparison',
     ],
+    alternates: {
+      canonical: `${siteConfig.url}/`,
+    },
     openGraph: {
       title: 'RelocationLogic - Career & Relocation Salary Calculator',
       description: siteConfig.description,
-      url: siteConfig.url,
+      url: `${siteConfig.url}/`,
       siteName: siteConfig.name,
       images: [
         {
@@ -59,6 +62,49 @@ export function generateHomeMetadata(): Metadata {
       },
     },
     other: lastUpdated ? { 'data-last-updated': lastUpdated } : undefined,
+  };
+}
+
+/**
+ * Generate metadata for static pages (About, Guides, etc.)
+ */
+export function generateStaticMetadata(
+  path: string,
+  title: string,
+  description: string
+): Metadata {
+  // Ensure path starts with / and ends with /
+  let normalizedPath = path.replace(/^\/+|\/+$/g, '');
+  normalizedPath = normalizedPath ? `/${normalizedPath}/` : '/';
+  const canonical = `${siteConfig.url}${normalizedPath}`;
+
+  return {
+    title: `${title} — ${siteConfig.name}`,
+    description,
+    alternates: {
+      canonical,
+    },
+    openGraph: {
+      title: `${title} — ${siteConfig.name}`,
+      description,
+      url: canonical,
+      siteName: siteConfig.name,
+      images: [
+        {
+          url: siteConfig.ogImage,
+          width: 1200,
+          height: 630,
+        },
+      ],
+      locale: 'en_US',
+      type: 'website',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${title} — ${siteConfig.name}`,
+      description,
+      images: [siteConfig.ogImage],
+    },
   };
 }
 

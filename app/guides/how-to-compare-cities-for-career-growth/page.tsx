@@ -2,11 +2,13 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import EditorialAttribution from '@/components/EditorialAttribution';
 import GuideStructuredData from '@/components/GuideStructuredData';
+import { generateStaticMetadata } from '@/lib/metadata';
 
-export const metadata: Metadata = {
-  title: 'How to compare cities for career growth — RelocationLogic',
-  description: 'A practical approach to compare cities based on opportunity, growth, and fit for your career.',
-};
+export const metadata: Metadata = generateStaticMetadata(
+  '/guides/how-to-compare-cities-for-career-growth',
+  'How to compare cities for career growth',
+  'A practical approach to compare cities based on opportunity, growth, and fit for your career.'
+);
 
 export default function CompareCitiesGuide() {
   return (

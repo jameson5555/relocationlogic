@@ -2,11 +2,13 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import EditorialAttribution from '@/components/EditorialAttribution';
 import GuideStructuredData from '@/components/GuideStructuredData';
+import { generateStaticMetadata } from '@/lib/metadata';
 
-export const metadata: Metadata = {
-  title: 'Hidden costs of moving cities — RelocationLogic',
-  description: 'Unexpected expenses to plan for when moving cities, from deposits to increased commute costs.',
-};
+export const metadata: Metadata = generateStaticMetadata(
+  '/guides/hidden-costs-of-moving-cities',
+  'Hidden costs of moving cities',
+  'Unexpected expenses to plan for when moving cities, from deposits to increased commute costs.'
+);
 
 export default function HiddenCostsGuide() {
   return (

@@ -1,10 +1,12 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
+import { generateStaticMetadata } from '@/lib/metadata';
 
-export const metadata: Metadata = {
-  title: 'Guides — RelocationLogic',
-  description: 'Practical guides for evaluating relocation offers, hidden moving costs, remote-work strategies, and city comparisons.',
-};
+export const metadata: Metadata = generateStaticMetadata(
+  '/guides',
+  'Guides',
+  'Practical guides for evaluating relocation offers, hidden moving costs, remote-work strategies, and city comparisons.'
+);
 
 export default function GuidesIndex() {
   return (

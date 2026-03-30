@@ -1,10 +1,12 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
+import { generateStaticMetadata } from '@/lib/metadata';
 
-export const metadata: Metadata = {
-  title: 'Contact — RelocationLogic',
-  description: 'Contact RelocationLogic for corrections, data inquiries, and partnerships.',
-};
+export const metadata: Metadata = generateStaticMetadata(
+  '/contact',
+  'Contact',
+  'Contact RelocationLogic for corrections, data inquiries, and partnerships.'
+);
 
 export default function ContactPage() {
   return (

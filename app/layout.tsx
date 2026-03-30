@@ -2,11 +2,14 @@ import type { Metadata } from "next";
 import "./globals.css";
 import CookieConsent from '@/components/CookieConsent';
 import ConsentScriptLoader from '@/components/ConsentScriptLoader';
-import { generateHomeMetadata } from "@/lib/metadata";
+import { generateHomeMetadata, siteConfig } from "@/lib/metadata";
 import { formatLastUpdated, getSiteLastUpdated } from "@/lib/data";
 import Link from "next/link";
 
-export const metadata: Metadata = generateHomeMetadata();
+export const metadata: Metadata = {
+  ...generateHomeMetadata(),
+  metadataBase: new URL(siteConfig.url),
+};
 
 export default function RootLayout({
   children,

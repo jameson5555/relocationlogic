@@ -2,11 +2,13 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import EditorialAttribution from '@/components/EditorialAttribution';
 import GuideStructuredData from '@/components/GuideStructuredData';
+import { generateStaticMetadata } from '@/lib/metadata';
 
-export const metadata: Metadata = {
-  title: 'Remote work relocation strategy — RelocationLogic',
-  description: 'How remote workers should think about relocation, taxes, and employer policies.',
-};
+export const metadata: Metadata = generateStaticMetadata(
+  '/guides/remote-work-relocation-strategy',
+  'Remote work relocation strategy',
+  'How remote workers should think about relocation, taxes, and employer policies.'
+);
 
 export default function RemoteWorkGuide() {
   return (

@@ -1,12 +1,13 @@
 import React from 'react';
 import { Metadata } from 'next';
 import { getSiteLastUpdated, formatLastUpdated } from '@/lib/data';
+import { generateStaticMetadata } from '@/lib/metadata';
 
-export const metadata: Metadata = {
-  title: 'About - RelocationLogic',
-  description:
-    'About RelocationLogic — mission, data sources, and methodology behind salary and cost-of-living insights.',
-};
+export const metadata: Metadata = generateStaticMetadata(
+  '/about',
+  'About',
+  'About RelocationLogic — mission, data sources, and methodology behind salary and cost-of-living insights.'
+);
 
 export default function AboutPage() {
   const lastUpdated = formatLastUpdated(getSiteLastUpdated());

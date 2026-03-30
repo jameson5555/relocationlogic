@@ -2,11 +2,13 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import EditorialAttribution from '@/components/EditorialAttribution';
 import GuideStructuredData from '@/components/GuideStructuredData';
+import { generateStaticMetadata } from '@/lib/metadata';
 
-export const metadata: Metadata = {
-  title: 'Cost-of-living mistakes — RelocationLogic',
-  description: 'Common mistakes people make when using cost-of-living data and how to avoid them.',
-};
+export const metadata: Metadata = generateStaticMetadata(
+  '/guides/cost-of-living-mistakes',
+  'Cost-of-living mistakes',
+  'Common mistakes people make when using cost-of-living data and how to avoid them.'
+);
 
 export default function ColMistakesGuide() {
   return (

@@ -1,10 +1,12 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
+import { generateStaticMetadata } from '@/lib/metadata';
 
-export const metadata: Metadata = {
-  title: 'Terms of Use — RelocationLogic',
-  description: 'Terms of use for RelocationLogic covering acceptable use and disclaimers.',
-};
+export const metadata: Metadata = generateStaticMetadata(
+  '/terms',
+  'Terms of Use',
+  'Terms of use for RelocationLogic covering acceptable use and disclaimers.'
+);
 
 export default function TermsPage() {
   return (

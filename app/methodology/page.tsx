@@ -1,10 +1,12 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
+import { generateStaticMetadata } from '@/lib/metadata';
 
-export const metadata: Metadata = {
-  title: 'Methodology — RelocationLogic',
-  description: 'Methodology: sources, update frequency, modeling assumptions and limitations for RelocationLogic data.',
-};
+export const metadata: Metadata = generateStaticMetadata(
+  '/methodology',
+  'Methodology',
+  'Methodology: sources, update frequency, modeling assumptions and limitations for RelocationLogic data.'
+);
 
 export default function MethodologyPage() {
   return (

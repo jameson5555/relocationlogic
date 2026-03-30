@@ -1,4 +1,12 @@
+import { Metadata } from 'next';
 import { getCities, getCareers, formatCurrency } from '@/lib/data';
+import { generateStaticMetadata } from '@/lib/metadata';
+
+export const metadata: Metadata = generateStaticMetadata(
+  '/cities',
+  'Cities',
+  'Explore city-level data, cost of living, and sample career salaries for major US cities.'
+);
 
 export default function CitiesPage() {
   const cities = getCities();

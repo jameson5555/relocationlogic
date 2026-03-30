@@ -1,4 +1,12 @@
+import { Metadata } from 'next';
 import { getCareers, getCities, formatCurrency } from '@/lib/data';
+import { generateStaticMetadata } from '@/lib/metadata';
+
+export const metadata: Metadata = generateStaticMetadata(
+  '/careers',
+  'Careers',
+  'Browse careers and see salary information across multiple cities and industries.'
+);
 
 export default function CareersPage() {
   const careers = getCareers();

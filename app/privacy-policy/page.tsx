@@ -1,10 +1,12 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
+import { generateStaticMetadata } from '@/lib/metadata';
 
-export const metadata: Metadata = {
-  title: 'Privacy Policy — RelocationLogic',
-  description: 'Privacy policy describing data collection, use, and cookies for RelocationLogic.',
-};
+export const metadata: Metadata = generateStaticMetadata(
+  '/privacy-policy',
+  'Privacy Policy',
+  'Privacy policy describing data collection, use, and cookies for RelocationLogic.'
+);
 
 export default function PrivacyPolicy() {
   return (

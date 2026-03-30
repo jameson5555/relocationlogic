@@ -2,11 +2,13 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import EditorialAttribution from '@/components/EditorialAttribution';
 import GuideStructuredData from '@/components/GuideStructuredData';
+import { generateStaticMetadata } from '@/lib/metadata';
 
-export const metadata: Metadata = {
-  title: 'How to evaluate a relocation offer — RelocationLogic',
-  description: 'A step-by-step checklist to evaluate relocation offers, compensation, and long-term financial impact.',
-};
+export const metadata: Metadata = generateStaticMetadata(
+  '/guides/how-to-evaluate-a-relocation-offer',
+  'How to evaluate a relocation offer',
+  'A step-by-step checklist to evaluate relocation offers, compensation, and long-term financial impact.'
+);
 
 export default function GuideEvaluateOffer() {
   return (
