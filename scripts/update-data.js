@@ -27,18 +27,79 @@ const META_PATH = path.join(DATA_DIR, 'meta.json');
 const METRO_MAPPING_PATH = path.join(DATA_DIR, 'mappings', 'metros.json');
 const CAREER_MAPPING_PATH = path.join(DATA_DIR, 'mappings', 'careers.json');
 
-const ACS_YEAR = process.env.ACS_YEAR || '2022';
-const ACS_BASE = `https://api.census.gov/data/${ACS_YEAR}/acs/acs5`;
+let ACS_YEAR = process.env.ACS_YEAR || '';
+let ACS_BASE = '';
 const ACS_VARS = ['B01003_001E', 'B25077_001E', 'B25064_001E'];
 const CENSUS_API_KEY = process.env.CENSUS_API_KEY || '';
 
-const OEWS_RELEASE = process.env.OEWS_RELEASE || '2023';
-const OEWS_URLS = (process.env.OEWS_URLS || '').split(',').map((value) => value.trim()).filter(Boolean);
-const OEWS_DEFAULT_URLS = [
-  `https://www.bls.gov/oes/special.requests/oesm${OEWS_RELEASE.slice(-2)}ma.zip`,
-  `https://download.bls.gov/pub/time.series/oes/oesm${OEWS_RELEASE.slice(-2)}ma.zip`,
-  `https://download.bls.gov/pub/oes/oesm${OEWS_RELEASE.slice(-2)}ma.zip`,
-];
+let OEWS_RELEASE = process.env.OEWS_RELEASE || '';
+let OEWS_URLS = (process.env.OEWS_URLS || '').split(',').map((value) => value.trim()).filter(Boolean);
+
+async function resolveLatestYears() {
+  const currentYear = new Date().getFullYear();
+
+  if (!ACS_YEAR) {
+    for (let year = currentYear; year >= 2020; year--) {
+      const url = `https://api.census.gov/data/${year}/acs/acs5?get=NAME&for=us:1`;
+      try {
+        log(`Checking ACS year ${year}...`);
+        const response = await fetch(url);
+        if (response.ok) {
+          const text = await response.text();
+          if (text.startsWith('[')) {
+            ACS_YEAR = year.toString();
+            break;
+          }
+        }
+      } catch (e) {}
+    }
+    if (!ACS_YEAR) ACS_YEAR = '2024';
+  }
+  ACS_BASE = `https://api.census.gov/data/${ACS_YEAR}/acs/acs5`;
+  log(`Resolved ACS_YEAR: ${ACS_YEAR}`);
+
+  if (!OEWS_RELEASE) {
+    for (let year = currentYear; year >= 2020; year--) {
+      const yy = year.toString().slice(-2);
+      const urls = [
+        `https://www.bls.gov/oes/special.requests/oesm${yy}ma.zip`,
+        `https://download.bls.gov/pub/time.series/oes/oesm${yy}ma.zip`,
+        `https://download.bls.gov/pub/oes/oesm${yy}ma.zip`,
+      ];
+      let found = false;
+      for (const url of urls) {
+        try {
+          log(`Checking OEWS release ${year} at ${url}...`);
+          const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+              'User-Agent': 'relocationlogic-data-refresh/1.0',
+              'Referer': 'https://www.bls.gov/oes/',
+              'Range': 'bytes=0-1000'
+            }
+          });
+          if (response.ok || response.status === 206) {
+            OEWS_RELEASE = year.toString();
+            OEWS_URLS = urls;
+            found = true;
+            break;
+          }
+        } catch (e) {}
+      }
+      if (found) break;
+    }
+    if (!OEWS_RELEASE) {
+      OEWS_RELEASE = '2025';
+      const yy = '25';
+      OEWS_URLS = [
+        `https://www.bls.gov/oes/special.requests/oesm${yy}ma.zip`,
+        `https://download.bls.gov/pub/time.series/oes/oesm${yy}ma.zip`,
+        `https://download.bls.gov/pub/oes/oesm${yy}ma.zip`,
+      ];
+    }
+  }
+  log(`Resolved OEWS_RELEASE: ${OEWS_RELEASE}`);
+}
 
 function log(message) {
   console.log(`[update-data] ${message}`);
@@ -128,7 +189,7 @@ async function fetchJson(url) {
 }
 
 async function downloadOewsCsv() {
-  const urls = OEWS_URLS.length ? OEWS_URLS : OEWS_DEFAULT_URLS;
+  const urls = OEWS_URLS;
   const errors = [];
 
   for (const url of urls) {
@@ -434,7 +495,7 @@ async function updateCareers() {
     return nextCareer;
   });
 
-  const sourceUrls = OEWS_URLS.length ? OEWS_URLS : OEWS_DEFAULT_URLS;
+  const sourceUrls = OEWS_URLS;
   return { updatedCareers, sourceUrls };
 }
 
@@ -460,6 +521,7 @@ function updateMeta(nowIso, sourceUrls, datasetId, release, notes) {
 async function main() {
   const nowIso = new Date().toISOString();
   log('Starting data refresh...');
+  await resolveLatestYears();
 
   const { updatedCities, sourceUrls: acsSources } = await updateCities();
   const { updatedCareers, sourceUrls: oewsSources } = await updateCareers();

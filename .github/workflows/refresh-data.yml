@@ -2,7 +2,7 @@ name: Refresh Data (Monthly)
 
 on:
   schedule:
-    - cron: '0 6 1 * *'
+    - cron: '0 6 15 1,6 *'
   workflow_dispatch:
 
 permissions:
@@ -28,9 +28,6 @@ jobs:
         run: npm run update-data
         env:
           CENSUS_API_KEY: ${{ secrets.CENSUS_API_KEY }}
-          ACS_YEAR: '2024'
-          OEWS_RELEASE: '2025'
-          OEWS_URLS: 'https://www.bls.gov/oes/special.requests/oesm25ma.zip,https://download.bls.gov/pub/time.series/oes/oesm25ma.zip,https://download.bls.gov/pub/oes/oesm25ma.zip'
 
       - name: Commit changes if needed
         run: |
