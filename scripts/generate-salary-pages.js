@@ -121,7 +121,7 @@ function formatLastUpdated(lastUpdated) {
 function getSiteLastUpdated(meta) {
   if (!meta || !meta.datasets) return null;
   const dates = [meta.datasets.censusAcs, meta.datasets.blsOews]
-    .map((dataset) => dataset?.lastUpdated)
+    .map((dataset) => dataset?.retrievedAt || dataset?.lastUpdated)
     .filter(Boolean)
     .map((value) => new Date(value))
     .filter((value) => !Number.isNaN(value.getTime()));

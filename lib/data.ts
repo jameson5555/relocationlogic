@@ -50,8 +50,10 @@ export function getDatasetMeta(datasetId: string): DatasetMeta | undefined {
 
 export function getDatasetLastUpdated(datasetId: string): Date | null {
   const dataset = getDatasetMeta(datasetId);
-  if (!dataset?.lastUpdated) return null;
-  const parsed = new Date(dataset.lastUpdated);
+  if (!dataset) return null;
+  const dateStr = dataset.retrievedAt || dataset.lastUpdated;
+  if (!dateStr) return null;
+  const parsed = new Date(dateStr);
   return Number.isNaN(parsed.getTime()) ? null : parsed;
 }
 

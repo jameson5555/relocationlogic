@@ -25,7 +25,7 @@ function getLastModified() {
 }
 
 function getDatasetLastUpdated(meta, datasetId) {
-  const value = meta?.datasets?.[datasetId]?.lastUpdated;
+  const value = meta?.datasets?.[datasetId]?.retrievedAt || meta?.datasets?.[datasetId]?.lastUpdated;
   if (!value) return null;
   const parsed = new Date(value);
   return Number.isNaN(parsed.getTime()) ? null : parsed;

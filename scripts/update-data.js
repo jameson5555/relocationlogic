@@ -506,7 +506,11 @@ async function main() {
   }
 
   if (!wrote) {
-    log('No data changes detected.');
+    log('No data changes detected. Updating retrievedAt timestamp...');
+    const meta = loadJson(META_PATH, { datasets: {} });
+    if (meta.datasets.censusAcs) meta.datasets.censusAcs.retrievedAt = nowIso;
+    if (meta.datasets.blsOews) meta.datasets.blsOews.retrievedAt = nowIso;
+    writeJsonAtomic(META_PATH, meta);
   }
 
   log('Data refresh complete.');
