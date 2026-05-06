@@ -1,4 +1,4 @@
-name: Refresh Data (Monthly)
+name: Refresh Data (Semi-Annual)
 
 on:
   schedule:
