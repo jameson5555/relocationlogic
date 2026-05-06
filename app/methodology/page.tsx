@@ -27,7 +27,7 @@ export default function MethodologyPage() {
         <section>
           <h2>Update frequency</h2>
           <p>
-            Core salary and cost-of-living inputs are refreshed monthly, and critical corrections are applied as reported.
+            Core salary and cost-of-living inputs are automatically refreshed semi-annually (in January and June) to capture the latest annual releases from the Census Bureau and the Bureau of Labor Statistics. Critical corrections are applied manually as needed.
           </p>
         </section>
 

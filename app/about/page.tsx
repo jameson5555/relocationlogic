@@ -56,7 +56,7 @@ export default function AboutPage() {
 
           <h2>Keeping Data Fresh</h2>
           <p>
-            Core datasets are refreshed monthly, with critical corrections applied sooner when needed. The most recent dataset refresh is:
+            Core datasets are refreshed semi-annually (in January and June) to automatically pull the newest Census and BLS releases as soon as they are published. Our pipeline dynamically queries these government endpoints to ensure you are always seeing the most recent data available. The most recent dataset refresh is:
             {lastUpdated ? ` ${lastUpdated}` : ' not available'}.
           </p>
         </div>
