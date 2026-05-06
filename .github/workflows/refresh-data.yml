@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: write
+  actions: write
 
 jobs:
   refresh-data:
@@ -40,3 +41,8 @@ jobs:
           git add data/cities.json data/careers.json data/meta.json
           git commit -m "chore: refresh data snapshots"
           git push origin main
+          
+          echo "Triggering deployment..."
+          gh workflow run export-and-deploy.yml --ref main
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
