@@ -78,7 +78,8 @@ async function resolveLatestYears() {
               'Range': 'bytes=0-1000'
             }
           });
-          if (response.ok || response.status === 206) {
+          const contentType = response.headers.get('content-type') || '';
+          if ((response.ok || response.status === 206) && contentType.includes('zip')) {
             OEWS_RELEASE = year.toString();
             OEWS_URLS = urls;
             found = true;
