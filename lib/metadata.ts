@@ -27,7 +27,7 @@ export function generateHomeMetadata(): Metadata {
       'city comparison',
     ],
     alternates: {
-      canonical: `${siteConfig.url}/`,
+      canonical: '/',
     },
     openGraph: {
       title: 'RelocationLogic - Career & Relocation Salary Calculator',
@@ -82,7 +82,7 @@ export function generateStaticMetadata(
     title: `${title} — ${siteConfig.name}`,
     description,
     alternates: {
-      canonical,
+      canonical: normalizedPath,
     },
     openGraph: {
       title: `${title} — ${siteConfig.name}`,
@@ -154,7 +154,7 @@ export function generatePageMetadata(
       images: [siteConfig.ogImage],
     },
     alternates: {
-      canonical: `${siteConfig.url}/salary/${city.id}/${career.id}/`,
+      canonical: `/salary/${city.id}/${career.id}/`,
     },
     other: lastUpdated ? { 'data-last-updated': lastUpdated } : undefined,
   };
